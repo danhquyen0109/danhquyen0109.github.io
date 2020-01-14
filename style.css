@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    padding: 0;
+}
+
+#top-bar {
+    height: 60px;
+    margin: 0;
+    background-color: rgb(26, 27, 29);
+    border-bottom: solid 5px;
+    border-bottom-color: rgb(255, 70, 83);
+}
+
+#sign-up {
+    color: white;
+    font-family: Georgia;
+    font-size: 12px;
+    padding: 21px 0px 22px 20px;
+}
+
+#search {
+    max-width: 210px;
+    height: 25px;
+    background-color: white;
+    border-radius: 18px;
+    margin: 15px 20px 15px 0px;
+    padding-left: 7px;
+    padding-right: 7px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+#text-box {
+    max-width: 178px;
+    height: 25px;
+    background-color: white;
+    border-radius: 18px;
+    border: none;
+    font-size: 12px;
+    outline: none;
+    padding-left: 0;
+    padding-right: 7px;
+}
+
+#search-button {
+    width: 18px;
+    height: 18px;
+    background-color: black;
+    border-radius: 18px;
+    border: none;
+    outline: none;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+#icon-search {
+    color: white;
+    outline: none;
+    font-size: 8px;
+}
+
+#header {
+    margin: 0;
+}
+
+#logo {
+    margin-top: 45px;
+    margin-left: 20px;
+}
+
+#banner {
+    margin-top: 45px;
+    margin-right: 20px;
+    margin-left: 20px;
+    float: right;
+}
+
+.active {
+    background-color: rgb(255, 70, 83);
+}
+
+#navbar {
+    padding: 0;
+    max-width: 960px;
+    height: 48px;
+    margin-top: 45px;
+    margin-left: 20px;
+}
+
+#link-item {
+    height: 48px;
+    padding: .75rem 1rem;
+}
