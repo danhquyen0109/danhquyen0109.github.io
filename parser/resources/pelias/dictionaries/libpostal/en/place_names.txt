@@ -1,0 +1,5 @@
+temple
+cathedral
+stop
+!dist
+building
