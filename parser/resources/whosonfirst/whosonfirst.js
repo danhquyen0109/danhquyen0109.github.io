@@ -6,6 +6,7 @@ const dictPath = path.join(__dirname, `./dictionaries`)
 const allPlacetypes = fs.readdirSync(dictPath).filter(p => !p.includes('.'))
 
 function load (set, placetypes, filenames, options) {
+  console.log(placetypes)
   const add = _add(set, options)
   const remove = _remove(set, options)
   placetypes.forEach(placetype => {
