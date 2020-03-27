@@ -2,6 +2,7 @@ const PhraseClassifier = require('./super/PhraseClassifier')
 const AreaClassification = require('../classification/AreaClassification')
 const CountryClassification = require('../classification/CountryClassification')
 const CountyClassification = require('../classification/CountyClassification')
+const StreetClassification = require('../classification/StreetClassification')
 // const DependencyClassification = require('../classification/DependencyClassification')
 const RegionClassification = require('../classification/RegionClassification')
 const LocalityClassification = require('../classification/LocalityClassification')
@@ -32,6 +33,10 @@ const placetypes = {
   'country': {
     files: ['name:eng_x_preferred.txt', 'wof:country.txt', 'wof:country_alpha3.txt'],
     classifications: [AreaClassification, CountryClassification]
+  },
+  'street': {
+    files: ['name:vie_streets.txt'],
+    classifications: [AreaClassification, StreetClassification]
   },
 }
 
