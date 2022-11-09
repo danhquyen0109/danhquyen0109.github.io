@@ -4,7 +4,7 @@
 
  <HEAD>
 
-  <TITLE> New Document </TITLE>
+  <TITLE> Heart </TITLE>
 
   <META NAME="Generator" CONTENT="EditPlus">
 
@@ -227,8 +227,6 @@ var ParticlePool = (function() {
 
       duration    = settings.particles.duration;
 
- 
-
   function ParticlePool(length) {
 
     // create and populate particle pool
@@ -245,8 +243,6 @@ var ParticlePool = (function() {
 
     particles[firstFree].initialize(x, y, dx, dy);
 
-   
-
     // handle circular queue
 
     firstFree++;
@@ -262,8 +258,6 @@ var ParticlePool = (function() {
   ParticlePool.prototype.update = function(deltaTime) {
 
     var i;
-
-   
 
     // update active particles
 
@@ -287,8 +281,6 @@ var ParticlePool = (function() {
 
     }
 
-   
-
     // remove inactive particles
 
     while (particles[firstActive].age >= duration && firstActive != firstFree) {
@@ -298,10 +290,6 @@ var ParticlePool = (function() {
       if (firstActive == particles.length) firstActive = 0;
 
     }
-
-   
-
-   
 
   };
 
@@ -368,8 +356,6 @@ var ParticlePool = (function() {
 
   }
 
- 
-
   // creating the particle image using a dummy canvas
 
   var image = (function() {
@@ -434,8 +420,6 @@ var ParticlePool = (function() {
 
   })();
 
- 
-
   // render that thing!
 
   function render() {
@@ -443,8 +427,6 @@ var ParticlePool = (function() {
     // next animation frame
 
     requestAnimationFrame(render);
-
-   
 
     // update time
 
@@ -454,13 +436,9 @@ var ParticlePool = (function() {
 
     time = newTime;
 
-   
-
     // clear canvas
 
     context.clearRect(0, 0, canvas.width, canvas.height);
-
-   
 
     // create new particles
 
@@ -476,8 +454,6 @@ var ParticlePool = (function() {
 
     }
 
-   
-
     // update and draw particles
 
     particles.update(deltaTime);
@@ -485,8 +461,6 @@ var ParticlePool = (function() {
     particles.draw(context, image);
 
   }
-
- 
 
   // handle (re-)sizing of the canvas
 
@@ -499,9 +473,7 @@ var ParticlePool = (function() {
   }
 
   window.onresize = onResize;
-
  
-
   // delay rendering bootstrap
 
   setTimeout(function() {
