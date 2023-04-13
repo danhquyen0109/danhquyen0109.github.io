@@ -20055,7 +20055,7 @@ if(B.b.B($.AJ,p)){s=2
 while(!0){r=$.lv
 q=p+s
 if(!A.an_(r,q,0))break;++s}p=q}return p},
-adT(a5,a6){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0=": num.tryParse(json['",a1="'].toString()),\n",a2="'] is List ? json['",a3="\tfinal List<num?>? ",a4="'].map((e)=> num.tryParse(e.toString())).toList() : null,\n"
+adT(a5,a6){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0=": num.tryParse(json['",a1="'].toString()),\n",a2="'] is List ? json['",a3="\tfinal List<num?>? ",a4="'].map<num?>((e)=> num.tryParse(e.toString())).toList() : null,\n"
 for(s=J.d9(a5),r=J.aD(s.gbw(a5)),q=t.j,p=t.G,o=t.N,n=t.z,m=t.a,l="",k="",j="",i="",h="",g="",f="";r.u();){e=r.gK(r)
 if(s.h(a5,e)==null){k+="\tfinal dynamic "+A.aC(e).aF()+";\n"
 i+="\t\t\t"+A.aC(e).aF()+": json['"+e+"'],\n"
@@ -20079,10 +20079,10 @@ l+="\t\tthis."+A.aC(e).aF()+",\n"
 g+="\t\t"+d+"? "+A.aC(e).aF()+",\n"
 $.AJ.push(d)
 A.adT(s.h(a5,e),d)}else if(q.b(s.h(a5,e)))if(J.hy(q.a(s.h(a5,e)))){k+="\tfinal List<dynamic>? "+A.aC(e).aF()+";\n"
-i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map((e)=> e).toList() : null,\n"
+i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map<dynamic>((e)=> e).toList() : null,\n"
 l+="\t\tthis."+A.aC(e).aF()+",\n"
 g+="\t\tList<dynamic>? "+A.aC(e).aF()+",\n"}else if(typeof J.hx(s.h(a5,e))=="string"){k+="\tfinal List<String?>? "+A.aC(e).aF()+";\n"
-i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map((e)=> e.toString()).toList() : null,\n"
+i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map<String?>((e)=> e.toString()).toList() : null,\n"
 l+="\t\tthis."+A.aC(e).aF()+",\n"
 g+="\t\tList<String?>? "+A.aC(e).aF()+",\n"}else if(A.nL(J.hx(s.h(a5,e)))){k+=a3+A.aC(e).aF()+";\n"
 i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+a4
@@ -20091,10 +20091,10 @@ g+="\t\tList<num?>? "+A.aC(e).aF()+",\n"}else if(typeof J.hx(s.h(a5,e))=="number
 i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+a4
 l+="\t\tthis."+A.aC(e).aF()+",\n"
 g+="\t\tList<num?>? "+A.aC(e).aF()+",\n"}else if(A.jQ(J.hx(s.h(a5,e)))){k+="\tfinal List<bool?>? "+A.aC(e).aF()+";\n"
-i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map((e)=> e.toString().contains('true')).toList() : null,\n"
+i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map<bool?>((e)=> e.toString().contains('true')).toList() : null,\n"
 l+="\t\tthis."+A.aC(e).aF()+",\n"
 g+="\t\tList<bool?>? "+A.aC(e).aF()+",\n"}else if(q.b(J.hx(s.h(a5,e)))){k+="\tfinal List<List<dynamic>?>? "+A.aC(e).aF()+";\n"
-i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map((e)=> e as List<dynamic?>?).toList() : null,\n"
+i+="\t\t\t"+A.aC(e).aF()+": json['"+e+a2+e+"'].map<List<dynamic>?>((e)=> e as List<dynamic?>?).toList() : null,\n"
 l+="\t\tthis."+A.aC(e).aF()+",\n"
 g+="\t\tList<List<dynamic>?>? "+A.aC(e).aF()+",\n"}else if(p.b(J.hx(s.h(a5,e)))){c=A.aC(A.aC(e).aF())
 b=c.d
