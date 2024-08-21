@@ -24363,7 +24363,7 @@ a9===$&&A.a()
 b0=A.X(a9).j("ag<1,t>")
 a7=A.asa(B.b.bX(A.ad(new A.ag(a9,a8.gEe(),b0),!0,b0.j("aA.E"))," "))
 a0+=l+a7+">? "+A.aB(a6).aC()+";\n"
-a2+="\t\t\t"+A.aB(a6).aC()+": json['"+a6+b3+a6+"'].map<"+a7+">((e)=> "+a7+".fromJson(e)).toList() : null,\n"
+a2+="\t\t\t"+A.aB(a6).aC()+": json['"+a6+b3+a6+"'].map<"+a7+">((e)=> "+a7+".fromJson(Map<String, dynamic>.from(e))).toList() : null,\n"
 a+="\t\tthis."+A.aB(a6).aC()+",\n"
 a4+="\t\tList<"+a7+">? "+A.aB(a6).aC()+",\n"
 $.Di.push(a7)
