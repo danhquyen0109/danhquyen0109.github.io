@@ -328,5 +328,12 @@
 
 <footer>&copy; 2026 Danh Quyen. All rights reserved.</footer>
 
+<script>
+// Gỡ service worker + cache còn sót lại từ bản Flutter cũ để khách cũ không thấy trang cũ
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
+  if (window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
+}
+</script>
 </body>
 </html>
