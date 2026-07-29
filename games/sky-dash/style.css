@@ -34,6 +34,7 @@ html,body{
 }
 
 .icon-btn{
+  position:relative;
   width:40px;height:40px;
   display:grid;place-items:center;
   border:2px solid rgba(255,255,255,.75);
@@ -46,7 +47,15 @@ html,body{
 }
 .icon-btn:hover{background:rgba(20,32,44,.7);transform:translateY(-1px)}
 .icon-btn:active{transform:translateY(1px)}
-.icon-btn.off{opacity:.45}
+/* Muted state is a struck-through note rather than a 🔇 emoji, which renders in
+   full colour and breaks the monochrome button row. */
+.icon-btn.off{opacity:.5}
+.icon-btn.off::after{
+  content:'';position:absolute;left:50%;top:50%;
+  width:20px;height:2px;border-radius:2px;
+  background:currentColor;
+  transform:translate(-50%,-50%) rotate(-45deg);
+}
 .icon-btn.small{width:34px;height:34px;font-size:12px}
 
 /* ===== Overlays ===== */

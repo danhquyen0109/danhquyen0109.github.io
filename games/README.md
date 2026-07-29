@@ -9,14 +9,23 @@ runs straight off the filesystem the way it is committed.
 games/
 ├── index.html        ← the hub (game list)
 ├── README.md
-└── sky-dash/         ← one folder per game
+├── sky-dash/         ← one folder per game
+│   ├── index.html
+│   ├── style.css
+│   ├── game.js
+│   ├── CREDITS.md    ← asset licences for that game
+│   └── assets/
+│       ├── sprites/
+│       └── sounds/
+└── 2048/
     ├── index.html
     ├── style.css
     ├── game.js
-    ├── CREDITS.md    ← asset licences for that game
+    ├── CREDITS.md
     └── assets/
-        ├── sprites/
-        └── sounds/
+        ├── sounds/
+        ├── thumb.svg
+        └── thumb-tile.svg
 ```
 
 ## Adding a new game
@@ -69,6 +78,29 @@ Implementation notes:
   where `fetch` is blocked) fall back to short WebAudio tones, so the game is never
   silently broken.
 - No code or artwork is copied from any existing game.
+
+### 2048 — [`2048/`](2048/)
+
+Sliding-tile number puzzle: merge equal tiles into their double and try to build a 2048.
+
+| | |
+|---|---|
+| Controls | Arrow keys / `WASD` / swipe · `U` undo · `N` new game · `M` mute · `Esc` close |
+| Undo | Up to 12 moves deep, also offered from the game-over card |
+| Win | A 2048 tile prompts once; "Keep going" continues without re-prompting |
+| Saved locally | Board, score, best, mute — `localStorage` key `g2048.v1`, so a refresh resumes |
+| Assets | Board and tiles are CSS/SVG; sounds by Kenney, CC0 — see [`2048/CREDITS.md`](2048/CREDITS.md) |
+
+Implementation notes:
+
+- Tiles are absolutely positioned in **percent** of the board and moved by transitioning
+  `left`/`top`, so the whole thing scales to any board size with no JS layout maths. The
+  single JS-set variable `--u` (a hundredth of the board width) drives font size.
+- A move's tail (removing absorbed tiles, popping merges, spawning the new tile) runs
+  after the 110ms slide. Input arriving during that window **flushes the pending move
+  instead of being dropped**, so fast play never loses a keypress.
+- The palette is this site's teal/ink scheme warming to amber and red on big tiles —
+  deliberately not any other implementation's look.
 
 ## Local preview
 

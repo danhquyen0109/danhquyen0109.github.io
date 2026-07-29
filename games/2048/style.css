@@ -1,0 +1,229 @@
+/* 2048 — palette follows the portfolio (ink + teal), warming to amber on big tiles. */
+:root{
+  --bg:#e9e9e7;
+  --surface:#ffffff;
+  --ink:#141414;
+  --muted:#6b6b6b;
+  --teal:#19c2c2;
+  --teal-soft:#d9f4f6;
+  --teal-ink:#0c7d86;
+  --board:#dcdcd9;
+  --cell:#ececea;
+  --gap:3%;              /* board padding and the gutter between cells */
+  --cell-size:21.25%;    /* (100 - 5*gap) / 4 */
+  --step:24.25%;         /* cell-size + gap */
+  --slide:110ms;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+  display:flex;justify-content:center;
+  padding:16px;
+  overscroll-behavior:none;
+}
+
+#app{
+  width:100%;max-width:460px;
+  display:flex;flex-direction:column;gap:14px;
+  padding-top:max(0px,env(safe-area-inset-top));
+}
+
+/* ===== Header ===== */
+.bar{display:flex;align-items:center;gap:12px}
+.wordmark{
+  font-size:34px;font-weight:900;letter-spacing:-.03em;
+  line-height:1;flex:1;
+}
+.scores{display:flex;gap:8px}
+.score-box{
+  position:relative;
+  min-width:74px;
+  background:var(--ink);color:#fff;
+  border-radius:12px;
+  padding:7px 12px 8px;
+  text-align:center;
+}
+.score-box span{
+  display:block;
+  font-size:9px;font-weight:700;letter-spacing:.16em;
+  color:#9a9a9a;
+}
+.score-box strong{display:block;font-size:19px;font-weight:800;line-height:1.2}
+/* Floats downward: the score box sits at the very top of the page, so an upward
+   drift would animate off-screen. */
+.gain{
+  position:absolute;left:0;right:0;top:100%;
+  font-style:normal;font-size:16px;font-weight:800;
+  color:var(--teal-ink);
+  opacity:0;pointer-events:none;
+}
+.gain.run{animation:gain .75s ease-out}
+@keyframes gain{
+  0%{opacity:1;transform:translateY(-6px)}
+  100%{opacity:0;transform:translateY(20px)}
+}
+
+.blurb{font-size:14px;color:var(--muted);line-height:1.5;margin-top:-4px}
+.blurb b{color:var(--teal-ink)}
+
+/* ===== Buttons ===== */
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  font-family:inherit;font-size:14px;font-weight:700;
+  background:var(--ink);color:#fff;
+  border:2px solid var(--ink);
+  border-radius:999px;
+  padding:10px 20px;
+  cursor:pointer;
+  transition:opacity .15s ease,transform .1s ease,background .15s ease,color .15s ease;
+}
+.btn:hover:not(:disabled){opacity:.85}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover:not(:disabled){background:var(--ink);color:#fff;opacity:1}
+.btn.icon{padding:10px 0;width:42px;text-align:center;position:relative}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+/* Muted state is a struck-through note rather than a 🔇 emoji, which renders in
+   full colour and breaks the monochrome button row. */
+.btn.ghost.off{opacity:.45}
+.btn.icon.off::after{
+  content:'';position:absolute;left:50%;top:50%;
+  width:20px;height:2px;border-radius:2px;
+  background:currentColor;
+  transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.icon-btn{
+  width:38px;height:38px;flex:none;
+  display:grid;place-items:center;
+  border:2px solid var(--ink);border-radius:12px;
+  color:var(--ink);text-decoration:none;
+  font-size:16px;line-height:1;
+  transition:background .15s ease,color .15s ease;
+}
+.icon-btn:hover{background:var(--ink);color:#fff}
+
+/* ===== Board ===== */
+.board-wrap{width:100%}
+.board{
+  position:relative;
+  width:100%;
+  aspect-ratio:1;
+  background:var(--board);
+  border-radius:16px;
+  touch-action:none;                 /* swipes belong to the game, not the page */
+}
+.cells,.tiles{position:absolute;inset:0}
+
+.cell,.tile{
+  position:absolute;
+  width:var(--cell-size);height:var(--cell-size);
+  border-radius:10px;
+}
+.cell{background:var(--cell)}
+
+.tile{
+  display:grid;place-items:center;
+  font-weight:800;
+  letter-spacing:-.04em;
+  /* --u is one hundredth of the board's pixel width, set by JS on resize, so tile
+     type scales with the board without container queries. */
+  font-size:calc(var(--u,4px) * 9);
+  background:var(--teal-soft);
+  color:var(--teal-ink);
+  transition:left var(--slide) ease-in-out,top var(--slide) ease-in-out;
+  will-change:left,top;
+}
+.tile.d4{font-size:calc(var(--u,4px) * 6.6)}
+.tile.d5{font-size:calc(var(--u,4px) * 5.4)}
+
+.tile.pop{animation:pop 160ms ease-out}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
+.tile.spawn{animation:spawn 160ms ease-out}
+@keyframes spawn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* Value ramp: pale teal → deep teal → amber → red → ink */
+.tile[data-v="2"]    {background:#d9f4f6;color:#0c7d86}
+.tile[data-v="4"]    {background:#b8e9ee;color:#0c7d86}
+.tile[data-v="8"]    {background:#7fd9e2;color:#064c56}
+.tile[data-v="16"]   {background:#4bc9d6;color:#fff}
+.tile[data-v="32"]   {background:#19c2c2;color:#fff}
+.tile[data-v="64"]   {background:#0fa2ab;color:#fff}
+.tile[data-v="128"]  {background:#f7cd63;color:#4a3608}
+.tile[data-v="256"]  {background:#f2ae3c;color:#fff}
+.tile[data-v="512"]  {background:#ec8c2b;color:#fff}
+.tile[data-v="1024"] {background:#e46a24;color:#fff}
+.tile[data-v="2048"] {background:#d9481f;color:#fff;box-shadow:0 0 0 3px #fff,0 0 22px rgba(217,72,31,.55)}
+.tile.huge           {background:#141414;color:#19c2c2;box-shadow:0 0 0 3px #fff,0 0 22px rgba(25,194,194,.45)}
+
+/* ===== End-of-game overlay ===== */
+.board-overlay{
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+  padding:16px;
+  border-radius:16px;
+  background:rgba(233,233,231,.86);
+  backdrop-filter:blur(3px);
+  z-index:5;
+  animation:fade .2s ease;
+}
+.board-overlay.hidden{display:none}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.end-card{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.end-card h2{font-size:clamp(24px,7vw,32px);font-weight:900;letter-spacing:-.02em}
+.end-card h2.win{color:var(--teal-ink)}
+.end-card p{font-size:14px;color:var(--muted)}
+.end-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.end-actions .btn{font-size:13px;padding:9px 16px}
+
+/* ===== Modal ===== */
+.modal{
+  position:fixed;inset:0;z-index:20;
+  display:grid;place-items:center;
+  padding:18px;
+  background:rgba(20,20,20,.5);
+  backdrop-filter:blur(3px);
+  animation:fade .2s ease;
+}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(420px,100%);max-height:90vh;overflow:auto;
+  background:var(--surface);
+  border-radius:22px;
+  padding:26px 24px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.modal-card h2{font-size:22px;font-weight:900;letter-spacing:-.02em}
+.modal-card ul{display:flex;flex-direction:column;gap:9px;padding-left:20px}
+.modal-card li{font-size:14px;line-height:1.55;color:#3d3d3d}
+.modal-card .tip{
+  font-size:13px;color:var(--teal-ink);
+  background:var(--teal-soft);
+  padding:11px 14px;border-radius:12px;
+}
+.modal-card .btn{align-self:flex-start}
+
+/* ===== Footer ===== */
+.hint{font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+.foot{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-size:12px;color:var(--muted);
+  padding-bottom:max(6px,env(safe-area-inset-bottom));
+}
+.foot a{color:var(--ink);text-decoration:none;font-weight:700}
+.foot a:hover{color:var(--teal-ink)}
+#status{color:var(--teal-ink);font-weight:700}
+
+@media (max-width:400px){
+  body{padding:10px}
+  .wordmark{font-size:28px}
+  .score-box{min-width:64px;padding:6px 9px 7px}
+  .score-box strong{font-size:16px}
+  .blurb{display:none}
+}

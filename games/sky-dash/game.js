@@ -670,7 +670,8 @@ function onRetry() { toReady(); }
 function toggleSound() {
   const muted = sfx.toggle();
   $('#btn-sound').classList.toggle('off', muted);
-  $('#btn-sound').innerHTML = muted ? '&#128263;' : '&#9834;';
+  $('#btn-sound').setAttribute('aria-pressed', String(muted));
+  $('#btn-sound').title = muted ? 'Sound off' : 'Sound on';
   if (!muted) sfx.play('click');
 }
 
@@ -695,7 +696,8 @@ if (location.protocol === 'file:') {
 resize();
 if (store.data.muted) {
   $('#btn-sound').classList.add('off');
-  $('#btn-sound').innerHTML = '&#128263;';
+  $('#btn-sound').setAttribute('aria-pressed', 'true');
+  $('#btn-sound').title = 'Sound off';
 }
 
 const fill = $('#bar-fill'), loadText = $('#load-text');
