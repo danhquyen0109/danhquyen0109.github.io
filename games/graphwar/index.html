@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Graphwar — danhquyen0109</title>
+<meta name="description" content="Graphwar — a turn-based artillery duel where your shot flies along the maths function you type. Play free in your browser.">
+<meta name="theme-color" content="#e9e9e7">
+<link rel="icon" href="assets/thumb-icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="app">
+
+  <header class="bar">
+    <a class="icon-btn" href="../" title="Back to games" aria-label="Back to games">&#8592;</a>
+    <h1 class="wordmark">Graphwar</h1>
+    <button class="icon-btn" id="btn-sound" title="Sound on" aria-label="Toggle sound" aria-pressed="false">&#9834;</button>
+    <button class="icon-btn" id="btn-help" title="How to play" aria-label="How to play">?</button>
+    <button class="btn small" id="btn-new">New game</button>
+  </header>
+
+  <!-- Turn / roster strip -->
+  <div class="turnbar">
+    <div class="roster" id="roster-a"></div>
+    <div class="turn" id="turn-label">&nbsp;</div>
+    <div class="roster right" id="roster-b"></div>
+  </div>
+
+  <!-- Battlefield -->
+  <div class="field-wrap">
+    <canvas id="field" width="1280" height="720" aria-label="Battlefield"></canvas>
+
+    <div class="field-overlay" id="ov-menu">
+      <div class="card">
+        <h2>Graphwar</h2>
+        <p>Your shot flies along the curve you type. Land it on an enemy without clipping the terrain — or your own team.</p>
+        <div class="choices">
+          <button class="btn" data-mode="ai" data-diff="easy">vs Computer &middot; Easy</button>
+          <button class="btn" data-mode="ai" data-diff="normal">vs Computer &middot; Normal</button>
+          <button class="btn" data-mode="ai" data-diff="hard">vs Computer &middot; Hard</button>
+          <button class="btn ghost" data-mode="hotseat">2 players &middot; same device</button>
+        </div>
+        <button class="btn ghost small" id="btn-help2">How to play</button>
+      </div>
+    </div>
+
+    <div class="field-overlay hidden" id="ov-end">
+      <div class="card">
+        <h2 id="end-title">Blue wins</h2>
+        <p id="end-sub">All red soldiers eliminated.</p>
+        <div class="choices row">
+          <button class="btn" id="btn-rematch">Rematch</button>
+          <button class="btn ghost" id="btn-menu">Change mode</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <form class="controls" id="controls" autocomplete="off">
+    <div class="fn-row">
+      <label class="fn-label" for="fn">y =</label>
+      <input class="fn-input" id="fn" type="text" inputmode="text" spellcheck="false"
+             placeholder="e.g.  0.05*x^2  or  3*sin(x/2)" value="0">
+      <button class="btn fire" id="btn-fire" type="submit">Fire</button>
+    </div>
+
+    <div class="opt-row">
+      <div class="seg" role="group" aria-label="Fire direction">
+        <button class="seg-btn" id="dir-left"  type="button" title="Fire left">&#9664;</button>
+        <button class="seg-btn on" id="dir-right" type="button" title="Fire right">&#9654;</button>
+      </div>
+
+      <label class="angle">
+        <span>Angle <b id="angle-val">0&deg;</b></span>
+        <input id="angle" type="range" min="-90" max="90" step="1" value="0">
+      </label>
+
+      <button class="btn ghost small" id="btn-reset-angle" type="button">Reset</button>
+    </div>
+
+    <div class="examples" id="examples" aria-label="Insert an example function"></div>
+    <p class="msg" id="msg">&nbsp;</p>
+  </form>
+
+  <footer class="foot">
+    <a href="../">&#8592; All games</a>
+    <span class="hint">Enter to fire &middot; <b>H</b> help &middot; <b>N</b> new game</span>
+  </footer>
+
+</main>
+
+<!-- How to play -->
+<div class="modal hidden" id="ov-help">
+  <div class="modal-card">
+    <h2>How to play</h2>
+    <ol>
+      <li>It is your turn when one of your soldiers is ringed on the battlefield. The shot starts from that soldier.</li>
+      <li>Type a function of <b>x</b> and press <b>Fire</b>. Your shot traces <b>y&nbsp;=&nbsp;f(x)</b>, where <b>x</b> is the distance travelled from your soldier — so <code>0</code> is a straight line, <code>0.1*x^2</code> arcs upward, <code>-2*sin(x)</code> snakes.</li>
+      <li><b>Angle</b> rotates the whole curve, and the arrows flip which way you shoot.</li>
+      <li>The shot dies on terrain or when it leaves the field. Anything caught in the blast dies — <b>including your own soldiers</b>.</li>
+      <li>Wipe out the other team to win.</li>
+    </ol>
+
+    <h3>Functions you can use</h3>
+    <p class="fnlist"><code>+ - * / ^ %</code> &middot; <code>sin cos tan</code> &middot; <code>asin acos atan atan2</code> &middot; <code>sinh cosh tanh</code> &middot; <code>exp ln log log2 log10</code> &middot; <code>sqrt cbrt abs sign</code> &middot; <code>floor ceil round trunc</code> &middot; <code>min max mod pow</code> &middot; <code>pi e</code></p>
+    <p class="tip">Implicit multiplication works: <code>2x</code>, <code>3sin(x)</code> and <code>(x+1)(x-1)</code> all parse — but a variable pushed straight against a name needs a star, so write <code>x*sin(x)</code>, not <code>xsin(x)</code>. Angles are in radians, and <code>log</code> is the natural log (use <code>log10</code> for base&nbsp;10).</p>
+    <button class="btn" id="btn-help-close">Got it</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

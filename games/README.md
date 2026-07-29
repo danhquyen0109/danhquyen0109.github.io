@@ -17,7 +17,16 @@ games/
 │   └── assets/
 │       ├── sprites/
 │       └── sounds/
-└── 2048/
+├── 2048/
+│   ├── index.html
+│   ├── style.css
+│   ├── game.js
+│   ├── CREDITS.md
+│   └── assets/
+│       ├── sounds/
+│       ├── thumb.svg
+│       └── thumb-tile.svg
+└── graphwar/
     ├── index.html
     ├── style.css
     ├── game.js
@@ -25,7 +34,7 @@ games/
     └── assets/
         ├── sounds/
         ├── thumb.svg
-        └── thumb-tile.svg
+        └── thumb-icon.svg
 ```
 
 ## Adding a new game
@@ -101,6 +110,38 @@ Implementation notes:
   instead of being dropped**, so fast play never loses a keypress.
 - The palette is this site's teal/ink scheme warming to amber and red on big tiles —
   deliberately not any other implementation's look.
+
+### Graphwar — [`graphwar/`](graphwar/)
+
+Turn-based artillery duel. Your shot flies along `y = f(x)`, where `x` is the distance
+travelled from your soldier, so choosing the function *is* the aiming.
+
+| | |
+|---|---|
+| Controls | Type a function, `Enter` to fire · direction toggle · angle slider · `H` help · `N` new game · `M` mute |
+| Modes | vs Computer (easy / normal / hard) and 2-player hot-seat |
+| Rules | 3 soldiers a side; terrain blocks shots; the blast kills anyone within 1.6 units, your own team included |
+| Saved locally | Mute and a win/loss tally — `localStorage` key `graphwar.v1` |
+| Assets | Battlefield is drawn in canvas; sounds by Kenney, CC0 — see [`graphwar/CREDITS.md`](graphwar/CREDITS.md) |
+
+Implementation notes:
+
+- Input is parsed by a hand-written tokenizer plus recursive-descent parser that
+  **compiles to a tree of closures — never `eval`**. Supports implicit multiplication
+  (`2x`, `3sin(x)`, `(x+1)(x-1)`), right-associative `^`, correct unary-minus
+  precedence (`-x^2` is `-(x^2)`), and ~30 functions. A typo produces a readable
+  message instead of a crash.
+- Teams spawn in a narrow column with one soldier per horizontal band, at least
+  `2 × blast radius` apart. Both constraints are load-bearing: spreading a team
+  horizontally puts teammates in each other's line of fire, and packing them closer
+  lets a single shell wipe out half a side.
+- The opponent searches parabolas *forced through the target point*, so it only has to
+  explore how much the shot arcs — which is what clears terrain. **Difficulty is applied
+  after that search, not to the candidates:** jittering candidates does nothing, because
+  best-of-N just picks whichever error cancelled out. Measured hit rates are 19% / 46% /
+  100% for easy / normal / hard.
+- The name belongs to an existing freeware game of the same concept; see
+  [`graphwar/CREDITS.md`](graphwar/CREDITS.md) before publishing this as a product.
 
 ## Local preview
 

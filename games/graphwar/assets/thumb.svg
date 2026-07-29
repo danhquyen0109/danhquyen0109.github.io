@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A curved shot arcing over terrain between two soldiers">
+  <defs>
+    <pattern id="gw-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0H0v20" fill="none" stroke="#ffffff" stroke-opacity=".05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="640" height="360" fill="#0f1b24"/>
+  <rect width="640" height="360" fill="url(#gw-grid)"/>
+  <g stroke="#ffffff" stroke-opacity=".16">
+    <path d="M0 220h640"/>
+    <path d="M320 0v360"/>
+  </g>
+
+  <!-- terrain -->
+  <g fill="#47826a">
+    <circle cx="250" cy="250" r="52"/><circle cx="305" cy="272" r="44"/><circle cx="360" cy="248" r="50"/>
+    <circle cx="470" cy="120" r="38"/><circle cx="512" cy="140" r="30"/>
+  </g>
+  <g fill="#2c5a45">
+    <circle cx="250" cy="250" r="48"/><circle cx="305" cy="272" r="40"/><circle cx="360" cy="248" r="46"/>
+    <circle cx="470" cy="120" r="34"/><circle cx="512" cy="140" r="26"/>
+  </g>
+
+  <!-- a previous, faded shot -->
+  <path d="M92 232 Q 300 320 560 300" fill="none" stroke="#5fe0e0" stroke-opacity=".16" stroke-width="3"/>
+
+  <!-- the live shot -->
+  <path d="M92 232 Q 320 -30 566 196" fill="none" stroke="#5fe0e0" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- soldiers -->
+  <circle cx="92" cy="232" r="15" fill="#19c2c2" stroke="#0f1b24" stroke-width="3"/>
+  <circle cx="566" cy="196" r="15" fill="#ef8b2c" stroke="#0f1b24" stroke-width="3"/>
+  <circle cx="566" cy="290" r="15" fill="#ef8b2c" stroke="#0f1b24" stroke-width="3"/>
+  <circle cx="92" cy="120" r="15" fill="#19c2c2" stroke="#0f1b24" stroke-width="3"/>
+</svg>

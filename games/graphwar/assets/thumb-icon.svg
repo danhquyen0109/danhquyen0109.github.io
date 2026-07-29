@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Graphwar icon: a curve between two soldiers">
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="#0f1b24"/>
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <g stroke="#ffffff" stroke-opacity=".14" stroke-width="2">
+    <path d="M14 64h100"/><path d="M64 14v100"/>
+  </g>
+  <path d="M30 88 Q 64 6 98 52" fill="none" stroke="#5fe0e0" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="30" cy="88" r="11" fill="#19c2c2" stroke="#0f1b24" stroke-width="3"/>
+  <circle cx="98" cy="52" r="11" fill="#ef8b2c" stroke="#0f1b24" stroke-width="3"/>
+</svg>
