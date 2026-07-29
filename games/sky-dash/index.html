@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Sky Dash — danhquyen0109</title>
+<meta name="description" content="Sky Dash — a one-tap flap-through-the-gaps arcade game. Play free in your browser.">
+<meta name="theme-color" content="#8fd4e8">
+<link rel="icon" href="assets/sprites/planes/planeBlue1.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="stage">
+  <canvas id="game" aria-label="Sky Dash game canvas" role="img"></canvas>
+
+  <!-- Top-right utility bar -->
+  <div id="topbar">
+    <a class="icon-btn" href="../" title="Back to games" aria-label="Back to games">&#8592;</a>
+    <button class="icon-btn" id="btn-sound" title="Sound on/off" aria-label="Toggle sound">&#9834;</button>
+    <button class="icon-btn" id="btn-pause" title="Pause" aria-label="Pause">&#10073;&#10073;</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="overlay" id="ov-loading">
+    <div class="panel">
+      <h1 class="logo">SKY&nbsp;DASH</h1>
+      <div class="bar"><i id="bar-fill"></i></div>
+      <p class="hint" id="load-text">Loading 0%</p>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <div class="overlay hidden" id="ov-menu">
+    <div class="panel">
+      <h1 class="logo">SKY&nbsp;DASH</h1>
+      <p class="tagline">Tap to flap. Thread the rocks. Don't hit anything.</p>
+
+      <div class="picker">
+        <button class="icon-btn small" id="plane-prev" aria-label="Previous plane">&#9664;</button>
+        <img id="plane-preview" src="assets/sprites/planes/planeBlue1.png" alt="Selected plane">
+        <button class="icon-btn small" id="plane-next" aria-label="Next plane">&#9654;</button>
+      </div>
+
+      <button class="sprite-btn" id="btn-play">PLAY</button>
+      <div class="stat-row">
+        <span>BEST</span><strong id="menu-best">0</strong>
+        <span>PLAYS</span><strong id="menu-plays">0</strong>
+      </div>
+      <p class="hint">Space / &#8593; / click / tap</p>
+    </div>
+  </div>
+
+  <!-- Paused -->
+  <div class="overlay hidden" id="ov-pause">
+    <div class="panel">
+      <h2 class="title">PAUSED</h2>
+      <button class="sprite-btn" id="btn-resume">RESUME</button>
+      <button class="sprite-btn ghost" id="btn-quit">QUIT</button>
+    </div>
+  </div>
+
+  <!-- Game over -->
+  <div class="overlay hidden" id="ov-over">
+    <div class="panel">
+      <img class="banner" src="assets/sprites/ui/textGameOver.png" alt="Game over">
+      <div class="score-card">
+        <img id="medal" src="assets/sprites/ui/medalBronze.png" alt="" hidden>
+        <div class="score-nums">
+          <div><span>SCORE</span><strong id="final-score">0</strong></div>
+          <div><span>BEST</span><strong id="final-best">0</strong></div>
+        </div>
+      </div>
+      <p class="newbest hidden" id="new-best">NEW BEST!</p>
+      <button class="sprite-btn" id="btn-retry">RETRY</button>
+      <button class="sprite-btn ghost" id="btn-menu">MENU</button>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
