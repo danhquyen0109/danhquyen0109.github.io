@@ -1,0 +1,21 @@
+# =============================================================================
+# Cấu hình Supabase CLI cho dự án Affiliate Admin
+# =============================================================================
+# Thay project_id bằng ref project của bạn (phần đầu URL: https://<ref>.supabase.co)
+project_id = "YOUR-PROJECT-REF"
+
+# -----------------------------------------------------------------------------
+# Edge Functions
+# -----------------------------------------------------------------------------
+# feed: CÔNG KHAI có chủ đích — agent bên ngoài fetch được mà không cần đăng nhập.
+# Function này chỉ đọc view `public_products` (không chứa số liệu hoa hồng).
+[functions.feed]
+verify_jwt = false
+
+# shopee-sync: gọi từ giao diện admin (kèm JWT) hoặc từ Cron (kèm service role key).
+[functions.shopee-sync]
+verify_jwt = true
+
+# shopee-product: chỉ dùng từ giao diện admin khi thêm sản phẩm.
+[functions.shopee-product]
+verify_jwt = true
