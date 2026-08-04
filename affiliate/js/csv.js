@@ -64,9 +64,13 @@ export function parseCSV(text, delimiter) {
 
 /** Các trường đích, kèm từ khoá nhận dạng (tiếng Việt + tiếng Anh). */
 export const TARGET_FIELDS = [
+  // Thứ tự hint có ý nghĩa: hint đứng trước thắng khi điểm bằng nhau. Với báo cáo
+  // Shopee, "ID đơn hàng" mới là mã từng đơn — "Checkout id" bị lặp lại khi một
+  // lượt thanh toán tách thành nhiều đơn (mua từ nhiều shop), nên xếp cuối.
   { key: 'conversion_id', label: 'Mã đơn / Conversion ID', required: true, type: 'text',
-    hints: ['conversion id', 'conversionid', 'ma don', 'mã đơn', 'order id', 'orderid',
-            'ma dat hang', 'mã đặt hàng', 'checkout id', 'order sn'] },
+    hints: ['id don hang', 'ma don hang', 'mã đơn hàng', 'order sn',
+            'conversion id', 'conversionid', 'ma don', 'mã đơn', 'order id', 'orderid',
+            'ma dat hang', 'mã đặt hàng', 'checkout id'] },
   { key: 'purchase_time', label: 'Thời gian đặt hàng', required: true, type: 'date',
     hints: ['purchase time', 'thoi gian dat', 'thời gian đặt', 'order time', 'ngay dat',
             'ngày đặt', 'thoi gian mua', 'thời gian mua', 'created', 'ngay tao'] },
@@ -74,15 +78,20 @@ export const TARGET_FIELDS = [
     hints: ['click time', 'thoi gian click', 'thời gian click', 'thoi gian nhap chuot'] },
   { key: 'order_status', label: 'Trạng thái đơn', required: false, type: 'status',
     hints: ['status', 'trang thai', 'trạng thái', 'tinh trang', 'tình trạng'] },
+  // Báo cáo Shopee có cả cột mức hoa hồng theo sản phẩm lẫn theo đơn, và cả cột
+  // "Tỷ lệ …" (phần trăm). Ưu tiên cột tính theo ĐƠN, tránh vớ phải cột tỷ lệ.
   { key: 'total_commission', label: 'Tổng hoa hồng', required: true, type: 'number',
-    hints: ['total commission', 'tong hoa hong', 'tổng hoa hồng', 'hoa hong', 'hoa hồng',
-            'commission', 'thu nhap', 'thu nhập'] },
+    hints: ['tong hoa hong don hang', 'total commission', 'tong hoa hong', 'tổng hoa hồng',
+            'hoa hong', 'hoa hồng', 'commission', 'thu nhap', 'thu nhập'] },
   { key: 'seller_commission', label: 'Hoa hồng người bán', required: false, type: 'number',
-    hints: ['seller commission', 'hoa hong nguoi ban', 'hoa hồng người bán', 'shop commission'] },
+    hints: ['hoa hong don hang tu nguoi ban', 'hoa hong xtra tren san pham',
+            'seller commission', 'hoa hong nguoi ban', 'hoa hồng người bán', 'shop commission'] },
   { key: 'shopee_commission', label: 'Hoa hồng Shopee', required: false, type: 'number',
-    hints: ['shopee commission', 'hoa hong shopee', 'hoa hồng shopee', 'platform commission'] },
+    hints: ['hoa hong don hang tu shopee', 'shopee commission', 'hoa hong shopee',
+            'hoa hồng shopee', 'platform commission'] },
   { key: 'net_commission', label: 'Hoa hồng thực nhận', required: false, type: 'number',
-    hints: ['net commission', 'thuc nhan', 'thực nhận', 'validated commission', 'final commission'] },
+    hints: ['hoa hong rong', 'net commission', 'thuc nhan', 'thực nhận',
+            'validated commission', 'final commission'] },
   { key: 'gmv', label: 'Giá trị đơn (GMV)', required: false, type: 'number',
     hints: ['gmv', 'order amount', 'gia tri don', 'giá trị đơn', 'doanh thu', 'total amount',
             'tong tien', 'tổng tiền'] },
@@ -96,7 +105,9 @@ export const TARGET_FIELDS = [
     hints: ['device', 'thiet bi', 'thiết bị', 'platform'] },
 ];
 
-const norm = (s) => String(s || '').toLowerCase()
+// L\u01b0u \u00fd: '\u0111' kh\u00f4ng ph\u00e2n r\u00e3 \u0111\u01b0\u1ee3c b\u1eb1ng NFD (n\u00f3 l\u00e0 m\u1ed9t k\u00fd t\u1ef1 ri\u00eang, kh\u00f4ng ph\u1ea3i
+// d + d\u1ea5u), n\u00ean ph\u1ea3i thay tay \u2014 n\u1ebfu kh\u00f4ng "\u0111\u01a1n h\u00e0ng" s\u1ebd th\u00e0nh "on hang".
+const norm = (s) => String(s || '').toLowerCase().replace(/\u0111/g, 'd')
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, ' ').trim();
 
@@ -115,14 +126,17 @@ export function guessMapping(headers) {
 
     normalized.forEach((h, i) => {
       if (used.has(i) || !h) return;
-      for (const hint of f.hints) {
+      f.hints.forEach((hint, hi) => {
         const n = norm(hint);
         let score = 0;
         if (h === n)            score = 100;
         else if (h.includes(n)) score = 60 + n.length;
         else if (n.includes(h)) score = 40 + h.length;
+        // Phạt rất nhỏ theo thứ tự hint: chỉ dùng để phá hoà, không đủ để lật
+        // ngược thứ hạng giữa hai mức điểm khác nhau.
+        if (score) score -= hi * 0.01;
         if (score > bestScore) { bestScore = score; best = i; }
-      }
+      });
     });
 
     out[f.key] = best;

@@ -118,7 +118,7 @@ supabase functions deploy feed
 ### 2.4. Kiểm tra
 
 ```bash
-curl "https://abcdefgh.supabase.co/functions/v1/feed?format=md"
+curl "https://bqmnxeofluonytshegwy.supabase.co/functions/v1/feed?format=md"
 ```
 
 Phải trả về brief dạng Markdown. **Quan trọng**: kiểm tra kết quả **không có số tiền
@@ -156,7 +156,7 @@ supabase functions deploy shopee-product
 supabase secrets set \
   SHOPEE_APP_ID=1234567890 \
   SHOPEE_SECRET=abcdef0123456789 \
-  OWNER_UID=<User UID copy ở bước 1.3>
+  OWNER_UID=83936650-78e4-4529-b9ea-898e91555980
 ```
 
 `OWNER_UID` để Cron biết ghi dữ liệu vào tài khoản nào (Cron chạy không có phiên

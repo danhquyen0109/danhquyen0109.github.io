@@ -2,7 +2,7 @@
 # Cấu hình Supabase CLI cho dự án Affiliate Admin
 # =============================================================================
 # Thay project_id bằng ref project của bạn (phần đầu URL: https://<ref>.supabase.co)
-project_id = "YOUR-PROJECT-REF"
+project_id = "bqmnxeofluonytshegwy"
 
 # -----------------------------------------------------------------------------
 # Edge Functions

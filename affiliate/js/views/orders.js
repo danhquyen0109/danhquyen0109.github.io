@@ -11,7 +11,9 @@ import * as db from '../db.js';
 import { parseCSV, guessMapping, buildRecords, TARGET_FIELDS, toCSV } from '../csv.js';
 
 const PAGE = 50;
-const MAPPING_KEY = 'csv_mapping';
+// v2: bỏ mapping đã lưu bằng bộ đoán cũ (nó chọn nhầm "Checkout id" làm mã đơn,
+// khiến các đơn tách từ cùng một lượt thanh toán bị gộp thành một).
+const MAPPING_KEY = 'csv_mapping_v2';
 
 export async function render(ctx) {
   const today = new Date();
