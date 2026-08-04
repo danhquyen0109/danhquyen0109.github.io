@@ -11,8 +11,8 @@
 // =============================================================================
 
 export const CONFIG = {
-  SUPABASE_URL: 'https://YOUR-PROJECT-REF.supabase.co',
-  SUPABASE_ANON_KEY: 'YOUR-ANON-PUBLIC-KEY',
+  SUPABASE_URL: 'https://bqmnxeofluonytshegwy.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxbW54ZW9mbHVvbnl0c2hlZ3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU4MzEwOTEsImV4cCI6MjEwMTQwNzA5MX0.1O4GPCrUnjECqCktIGHiHKS8_EIdHy39oROvzNBHe90',
 
   // Tiền tố sinh subId tự động cho sản phẩm mới (dùng để quy đơn về đúng link).
   // Giữ ngắn — Shopee giới hạn độ dài subId.
