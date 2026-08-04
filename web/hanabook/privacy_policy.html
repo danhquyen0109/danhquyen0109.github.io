@@ -80,6 +80,9 @@
         <tr><td>Account credentials</td><td>There is no sign-in.</td></tr>
       </table>
 
+      <h2>Device identifier for the welcome bonus</h2>
+      <p>New readers receive a one-time bonus of in-app coins. To stop the same device from claiming it repeatedly by reinstalling the app, HanaBook derives an identifier from the Android device identifier available to this app (<code>Settings.Secure.ANDROID_ID</code>), hashes it with a fixed app-specific salt, and sends only that hash with the bonus request. The raw device identifier never leaves your device, the hash is used solely for this anti-abuse check and for confirming purchases, and it is not used for advertising or shared with advertisers. On devices without such an identifier the app uses a random value that changes when app data is cleared.</p>
+
       <h2>Catalogue and download requests</h2>
       <p>The book catalogue and the books themselves are fetched from HanaBook's content service over HTTPS. Those requests carry the usual network information (IP address, device type, app version) and the identifier of the book being requested, and may be recorded in standard server logs for reliability and abuse prevention. A random per-install identifier may accompany a download request so the service can confirm the book was purchased. It is not linked to your name, email, or Google account.</p>
 
@@ -132,6 +135,9 @@
         <tr><td>Phân tích hành vi</td><td>Không tích hợp SDK phân tích hay báo lỗi.</td></tr>
         <tr><td>Thông tin đăng nhập</td><td>Ứng dụng không có đăng nhập.</td></tr>
       </table>
+
+      <h2>Mã định danh thiết bị cho phần thưởng chào mừng</h2>
+      <p>Người đọc mới nhận một lần xu thưởng trong ứng dụng. Để tránh việc cùng một thiết bị cài lại ứng dụng nhằm nhận thưởng nhiều lần, HanaBook lấy mã định danh thiết bị mà ứng dụng được phép đọc trên Android (<code>Settings.Secure.ANDROID_ID</code>), băm nó cùng một chuỗi muối cố định riêng của ứng dụng, và chỉ gửi đi giá trị băm đó kèm yêu cầu nhận thưởng. Mã định danh gốc không bao giờ rời khỏi thiết bị; giá trị băm chỉ dùng cho việc chống lạm dụng này và để xác nhận giao dịch, không dùng cho quảng cáo và không chia sẻ với đơn vị quảng cáo. Trên thiết bị không có mã như vậy, ứng dụng dùng một giá trị ngẫu nhiên và giá trị này thay đổi khi bạn xóa dữ liệu ứng dụng.</p>
 
       <h2>Yêu cầu tới dịch vụ thư viện</h2>
       <p>Danh mục sách và nội dung sách được tải từ dịch vụ nội dung của HanaBook qua HTTPS. Các yêu cầu này mang theo thông tin mạng thông thường (địa chỉ IP, loại thiết bị, phiên bản ứng dụng) và mã cuốn sách được yêu cầu, và có thể được ghi vào log máy chủ tiêu chuẩn phục vụ vận hành và chống lạm dụng. Một mã định danh ngẫu nhiên theo lần cài đặt có thể đi kèm yêu cầu tải để dịch vụ xác nhận sách đã được mua. Mã này không gắn với tên, email hay tài khoản Google của bạn.</p>
