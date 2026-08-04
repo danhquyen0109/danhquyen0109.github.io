@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101322">
+  <meta name="description" content="About Inkhaven — an original store and reader for short books, comics, and essays.">
+  <title>About · Inkhaven</title>
+  <style>
+    :root { color-scheme: dark; --ink:#ecead9; --muted:#a3a9bd; --panel:#171a26; --line:#2a2f42; --amber:#f2b544; --teal:#6fd3c7; --violet:#7c5cff; --deep:#0e1018; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 12% -4%, #241f45 0, transparent 30rem), linear-gradient(165deg,#0b0d15,#111420 55%,#0d1018); font:16px/1.72 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    a { color:var(--amber); text-underline-offset:3px; }
+    .shell { width:min(980px,calc(100% - 32px)); margin:auto; }
+    header { padding:64px 0 36px; border-bottom:1px solid var(--line); }
+    .eyebrow { margin:0 0 10px; color:var(--teal); font-size:.76rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
+    h1 { margin:0; font-size:clamp(2.25rem,7vw,4.6rem); line-height:1.02; letter-spacing:-.055em; }
+    .lead { max-width:720px; margin:20px 0 0; color:var(--muted); font-size:1.08rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+    nav a { padding:9px 13px; border:1px solid var(--line); border-radius:999px; color:var(--ink); background:#161a27cf; text-decoration:none; }
+    nav a:hover { border-color:var(--amber); }
+    main { padding:34px 0 70px; }
+    article { margin:0 0 28px; padding:clamp(22px,5vw,42px); border:1px solid var(--line); border-radius:24px; background:linear-gradient(145deg,#171a26ef,#12141fd9); box-shadow:0 24px 70px #0006; }
+    .language { display:inline-flex; padding:5px 10px; border-radius:8px; background:#f2b5441c; color:var(--amber); font-size:.78rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    h2 { margin:20px 0 10px; font-size:1.5rem; line-height:1.25; }
+    p,li { color:#d7d9e2; }
+    ul { padding-left:1.25rem; }
+    .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin:18px 0 4px; }
+    .card { padding:16px; border:1px solid var(--line); border-radius:16px; background:#12141fcc; }
+    .card h3 { margin:0 0 6px; font-size:1.02rem; color:var(--amber); }
+    .card p { margin:0; font-size:.94rem; color:var(--muted); }
+    table { width:100%; border-collapse:collapse; margin:14px 0; font-size:.95rem; }
+    th,td { padding:10px 12px; border:1px solid var(--line); text-align:left; }
+    th { background:#0f1220; }
+    .contact { margin-top:28px; padding:18px; border-left:3px solid var(--teal); border-radius:4px 14px 14px 4px; background:#6fd3c710; }
+    footer { padding:24px 0 38px; color:var(--muted); border-top:1px solid var(--line); font-size:.9rem; }
+    @media (max-width:600px) { header{padding-top:42px} .shell{width:min(100% - 22px,980px)} article{border-radius:18px} table{display:block;overflow-x:auto} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <p class="eyebrow">Inkhaven</p>
+      <h1>About Inkhaven</h1>
+      <p class="lead">A small bookstore and reader in one app. Buy a chapter. Keep the shelf.</p>
+      <nav aria-label="Page navigation">
+        <a href="#english">English</a><a href="#vietnamese">Tiếng Việt</a><a href="privacy_policy.html">Privacy</a><a href="terms.html">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <article id="english">
+      <span class="language">English</span>
+      <h2>What it is</h2>
+      <p>Inkhaven is an Android app that sells and reads short original fiction, comics, and essays. There are ten titles across six shelves, and every one of them opens with a free chapter, so you can read before you decide to spend anything.</p>
+      <p>Instead of a subscription, Inkhaven uses coins. You buy coins once through Google Play and then spend them however you prefer: on a whole book, on the single chapter you are curious about, or as a tip to the writer.</p>
+
+      <div class="grid">
+        <div class="card"><h3>Free first chapter</h3><p>Every title in the library has at least one sample chapter, and one title is free from end to end.</p></div>
+        <div class="card"><h3>Reader-first</h3><p>Text size, line spacing, serif or sans, and Paper, Sepia, or Night page themes.</p></div>
+        <div class="card"><h3>Offline</h3><p>Anything you unlock stays on the device and reads without a connection.</p></div>
+        <div class="card"><h3>No ads</h3><p>No advertising SDK, no analytics trackers, no subscriptions.</p></div>
+      </div>
+
+      <h2>Everything here is original</h2>
+      <p>Every story, comic script, and essay was written for this app. Every book cover and every comic panel is drawn by the app itself at run time from a numeric seed, which is why the artwork is unique to Inkhaven and why the download stays small. No third-party images, fonts, or texts are bundled.</p>
+
+      <h2>How coins work</h2>
+      <table>
+        <tr><th>Action</th><th>Cost</th></tr>
+        <tr><td>Sample chapter</td><td>Free on every title</td></tr>
+        <tr><td>Whole book</td><td>50–140 coins</td></tr>
+        <tr><td>One locked chapter</td><td>Roughly a third to a half of the book price</td></tr>
+        <tr><td>Author tip</td><td>25 coins</td></tr>
+        <tr><td>Welcome bonus</td><td>120 coins, once</td></tr>
+        <tr><td>Daily reading coins</td><td>15 coins, plus a streak bonus</td></tr>
+      </table>
+      <p>Coins are virtual currency with no cash value. They are credited to the device that bought them and are listed, one line at a time, in the app's transaction history screen.</p>
+
+      <h2>Languages and platform</h2>
+      <p>Inkhaven is available in English and Vietnamese, with English as the default. It is built for Android phones in portrait; the app is also runnable in a browser for development QA.</p>
+
+      <div class="contact"><strong>Contact</strong><br><a href="mailto:phamdanhquyen@gmail.com">phamdanhquyen@gmail.com</a></div>
+    </article>
+
+    <article id="vietnamese" lang="vi">
+      <span class="language">Tiếng Việt</span>
+      <h2>Inkhaven là gì</h2>
+      <p>Inkhaven là ứng dụng Android vừa bán vừa đọc truyện ngắn, truyện tranh và tản văn nguyên bản. Có mười tựa sách trên sáu kệ, và mọi cuốn đều mở đầu bằng một chương miễn phí để bạn đọc thử trước khi quyết định chi tiêu.</p>
+      <p>Thay vì thuê bao, Inkhaven dùng xu. Bạn nạp xu một lần qua Google Play rồi tiêu theo cách bạn thích: mở trọn cuốn, mở đúng chương bạn tò mò, hoặc ủng hộ người viết.</p>
+
+      <div class="grid">
+        <div class="card"><h3>Chương đầu miễn phí</h3><p>Mọi tựa sách đều có ít nhất một chương đọc thử, và một tựa sách miễn phí trọn vẹn.</p></div>
+        <div class="card"><h3>Ưu tiên người đọc</h3><p>Chỉnh cỡ chữ, giãn dòng, chữ có chân hay không chân, cùng nền Giấy, Ngả vàng, Ban đêm.</p></div>
+        <div class="card"><h3>Đọc ngoại tuyến</h3><p>Mọi thứ đã mở khóa nằm lại trên thiết bị và đọc được khi không có mạng.</p></div>
+        <div class="card"><h3>Không quảng cáo</h3><p>Không SDK quảng cáo, không trình theo dõi, không thuê bao.</p></div>
+      </div>
+
+      <h2>Mọi thứ ở đây đều nguyên bản</h2>
+      <p>Mọi truyện, kịch bản truyện tranh và bài tản văn đều được viết riêng cho ứng dụng này. Mọi bìa sách và khung truyện tranh đều do chính ứng dụng vẽ ra khi chạy, từ một con số seed — nhờ vậy hình ảnh là của riêng Inkhaven và dung lượng tải về vẫn nhẹ. Không đóng gói hình ảnh, phông chữ hay văn bản của bên thứ ba.</p>
+
+      <h2>Xu hoạt động thế nào</h2>
+      <table>
+        <tr><th>Hành động</th><th>Chi phí</th></tr>
+        <tr><td>Chương đọc thử</td><td>Miễn phí ở mọi tựa sách</td></tr>
+        <tr><td>Trọn cuốn sách</td><td>50–140 xu</td></tr>
+        <tr><td>Một chương đã khóa</td><td>Khoảng một phần ba đến một nửa giá cuốn sách</td></tr>
+        <tr><td>Ủng hộ tác giả</td><td>25 xu</td></tr>
+        <tr><td>Thưởng chào mừng</td><td>120 xu, một lần</td></tr>
+        <tr><td>Xu đọc sách mỗi ngày</td><td>15 xu, cộng thưởng chuỗi ngày</td></tr>
+      </table>
+      <p>Xu là tiền ảo, không có giá trị tiền mặt. Xu được cộng cho thiết bị đã mua và được liệt kê từng dòng một trong màn hình lịch sử giao dịch của ứng dụng.</p>
+
+      <h2>Ngôn ngữ và nền tảng</h2>
+      <p>Inkhaven có Tiếng Anh và Tiếng Việt, mặc định là Tiếng Anh. Ứng dụng được xây dựng cho điện thoại Android ở chế độ dọc; ngoài ra có thể chạy trên trình duyệt phục vụ kiểm thử khi phát triển.</p>
+
+      <div class="contact"><strong>Liên hệ</strong><br><a href="mailto:phamdanhquyen@gmail.com">phamdanhquyen@gmail.com</a></div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="shell">
+      Inkhaven · <a href="privacy_policy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="mailto:phamdanhquyen@gmail.com">phamdanhquyen@gmail.com</a>
+    </div>
+  </footer>
+</body>
+</html>
