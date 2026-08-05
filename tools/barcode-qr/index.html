@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo mã QR &amp; mã vạch online</title>
+<meta name="description" content="Công cụ tạo mã QR và mã vạch miễn phí, chạy hoàn toàn trong trình duyệt. Nhập nội dung là ra mã ngay, tải về PNG hoặc SVG. Không cần đăng ký, dữ liệu không rời khỏi máy bạn.">
+<meta name="theme-color" content="#e9e9e7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111'/><g fill='white'><rect x='18' y='18' width='26' height='26' rx='4'/><rect x='56' y='18' width='26' height='26' rx='4'/><rect x='18' y='56' width='26' height='26' rx='4'/><rect x='56' y='56' width='11' height='11'/><rect x='71' y='71' width='11' height='11'/></g></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <a class="brand" href="../../">
+      <span class="mark">Q</span>
+      <span class="name">Pham Danh Quyen</span>
+    </a>
+    <span class="pill">Chạy offline trong trình duyệt</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">Tiện ích</span>
+    <h1>Tạo mã QR &amp; <em>mã vạch</em> tức thì.</h1>
+    <p>Gõ nội dung, mã hiện ra ngay — không cần bấm nút, không cần đăng ký. Tải về PNG để in hay SVG để chỉnh trong Illustrator. Mọi thứ sinh ngay trên máy bạn, không có dữ liệu nào được gửi đi đâu cả.</p>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Loại mã">
+    <button class="tab is-active" role="tab" id="tab-qr" aria-controls="panel-qr" aria-selected="true" data-panel="qr">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h3v3h-3v-3zm5 0h3v3h-3v-3zm-5 5h3v3h-3v-3zm5 0h3v3h-3v-3z"/></svg>
+      Mã QR
+    </button>
+    <button class="tab" role="tab" id="tab-barcode" aria-controls="panel-barcode" aria-selected="false" data-panel="barcode">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 4h2v16H2V4zm3 0h1v16H5V4zm2 0h2v16H7V4zm3 0h1v16h-1V4zm3 0h2v16h-2V4zm3 0h1v16h-1V4zm2 0h3v16h-3V4z"/></svg>
+      Mã vạch
+    </button>
+  </div>
+
+  <main class="work">
+
+    <!-- ============ Cột trái: form ============ -->
+    <div class="controls">
+
+      <!-- ---------- QR ---------- -->
+      <section class="panel is-active" id="panel-qr" role="tabpanel" aria-labelledby="tab-qr">
+
+        <div class="field">
+          <label for="qr-type">Nội dung mã</label>
+          <select id="qr-type">
+            <option value="text">Văn bản / Link</option>
+            <option value="url">Website (URL)</option>
+            <option value="wifi">Wi-Fi</option>
+            <option value="vcard">Danh thiếp (vCard)</option>
+            <option value="email">Email</option>
+            <option value="sms">Tin nhắn SMS</option>
+            <option value="tel">Số điện thoại</option>
+            <option value="geo">Toạ độ bản đồ</option>
+          </select>
+        </div>
+
+        <!-- Mỗi preset là một nhóm input; chỉ nhóm đang chọn được hiện. -->
+        <div class="form-group is-active" data-form="text">
+          <div class="field">
+            <label for="qr-text">Văn bản hoặc đường dẫn</label>
+            <textarea id="qr-text" rows="4" placeholder="Nhập bất kỳ nội dung nào…"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group" data-form="url">
+          <div class="field">
+            <label for="qr-url">Địa chỉ website</label>
+            <input type="text" id="qr-url" placeholder="example.com">
+            <p class="hint">Thiếu <code>https://</code> thì sẽ được thêm tự động.</p>
+          </div>
+        </div>
+
+        <div class="form-group" data-form="wifi">
+          <div class="field">
+            <label for="wifi-ssid">Tên mạng (SSID)</label>
+            <input type="text" id="wifi-ssid" placeholder="Ten-Wifi-Nha-Toi">
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="wifi-enc">Bảo mật</label>
+              <select id="wifi-enc">
+                <option value="WPA">WPA / WPA2 / WPA3</option>
+                <option value="WEP">WEP</option>
+                <option value="nopass">Mạng mở (không mật khẩu)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="wifi-pass">Mật khẩu</label>
+              <input type="text" id="wifi-pass" placeholder="••••••••">
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="wifi-hidden"> Mạng ẩn (không phát tên)</label>
+        </div>
+
+        <div class="form-group" data-form="vcard">
+          <div class="row">
+            <div class="field">
+              <label for="vc-first">Tên</label>
+              <input type="text" id="vc-first" placeholder="Name...">
+            </div>
+            <div class="field">
+              <label for="vc-last">Họ</label>
+              <input type="text" id="vc-last" placeholder="Last name...">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="vc-phone">Điện thoại</label>
+              <input type="text" id="vc-phone" placeholder="+84…">
+            </div>
+            <div class="field">
+              <label for="vc-email">Email</label>
+              <input type="text" id="vc-email" placeholder="ban@vidu.com">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="vc-org">Công ty</label>
+              <input type="text" id="vc-org" placeholder="Tên công ty">
+            </div>
+            <div class="field">
+              <label for="vc-title">Chức danh</label>
+              <input type="text" id="vc-title" placeholder="Flutter Developer">
+            </div>
+          </div>
+          <div class="field">
+            <label for="vc-web">Website</label>
+            <input type="text" id="vc-web" placeholder="https://…">
+          </div>
+          <div class="field">
+            <label for="vc-addr">Địa chỉ</label>
+            <input type="text" id="vc-addr" placeholder="Số nhà, đường, quận, thành phố">
+          </div>
+        </div>
+
+        <div class="form-group" data-form="email">
+          <div class="field">
+            <label for="em-to">Gửi tới</label>
+            <input type="text" id="em-to" placeholder="ban@vidu.com">
+          </div>
+          <div class="field">
+            <label for="em-sub">Tiêu đề</label>
+            <input type="text" id="em-sub" placeholder="Chào bạn">
+          </div>
+          <div class="field">
+            <label for="em-body">Nội dung</label>
+            <textarea id="em-body" rows="3" placeholder="Nội dung thư soạn sẵn…"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group" data-form="sms">
+          <div class="field">
+            <label for="sms-to">Số nhận</label>
+            <input type="text" id="sms-to" placeholder="+84…">
+          </div>
+          <div class="field">
+            <label for="sms-body">Nội dung tin nhắn</label>
+            <textarea id="sms-body" rows="3" placeholder="Tin nhắn soạn sẵn…"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group" data-form="tel">
+          <div class="field">
+            <label for="tel-num">Số điện thoại</label>
+            <input type="text" id="tel-num" placeholder="+84…">
+          </div>
+        </div>
+
+        <div class="form-group" data-form="geo">
+          <div class="row">
+            <div class="field">
+              <label for="geo-lat">Vĩ độ</label>
+              <input type="text" id="geo-lat" placeholder="21.028511">
+            </div>
+            <div class="field">
+              <label for="geo-lng">Kinh độ</label>
+              <input type="text" id="geo-lng" placeholder="105.804817">
+            </div>
+          </div>
+        </div>
+
+        <details class="advanced">
+          <summary>Tuỳ chỉnh hiển thị</summary>
+          <div class="row">
+            <div class="field">
+              <label for="qr-ec">Mức chống lỗi</label>
+              <select id="qr-ec">
+                <option value="L">L — 7% (mã nhỏ nhất)</option>
+                <option value="M" selected>M — 15% (mặc định)</option>
+                <option value="Q">Q — 25%</option>
+                <option value="H">H — 30% (bền nhất)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="qr-margin">Lề trắng (ô)</label>
+              <input type="number" id="qr-margin" min="0" max="16" step="1" value="4">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="qr-size">Kích thước ảnh PNG (px)</label>
+              <input type="number" id="qr-size" min="128" max="4096" step="32" value="1024">
+            </div>
+            <div class="field">
+              <label for="qr-style">Kiểu ô</label>
+              <select id="qr-style">
+                <option value="square">Vuông</option>
+                <option value="dot">Chấm tròn</option>
+                <option value="rounded">Bo góc</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="qr-fg">Màu mã</label>
+              <input type="color" id="qr-fg" value="#141414">
+            </div>
+            <div class="field">
+              <label for="qr-bg">Màu nền</label>
+              <input type="color" id="qr-bg" value="#ffffff">
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="qr-transparent"> Nền trong suốt (chỉ áp dụng cho PNG &amp; SVG)</label>
+          <p class="hint">Mã QR đọc tốt nhất khi màu mã tối và nền sáng. Nếu đảo ngược, nhiều máy quét sẽ chịu thua.</p>
+        </details>
+
+        <p class="warn" id="qr-error" hidden></p>
+      </section>
+
+      <!-- ---------- BARCODE ---------- -->
+      <section class="panel" id="panel-barcode" role="tabpanel" aria-labelledby="tab-barcode">
+
+        <div class="field">
+          <label for="bc-format">Chuẩn mã vạch</label>
+          <select id="bc-format">
+            <optgroup label="Thông dụng">
+              <option value="CODE128">CODE128 — tự động, nhận mọi ký tự</option>
+              <option value="EAN13">EAN-13 — mã sản phẩm bán lẻ (12–13 số)</option>
+              <option value="EAN8">EAN-8 — bao bì nhỏ (7–8 số)</option>
+              <option value="UPC">UPC-A — bán lẻ Bắc Mỹ (11–12 số)</option>
+              <option value="CODE39">CODE39 — kho vận, chữ IN &amp; số</option>
+            </optgroup>
+            <optgroup label="Khác">
+              <option value="UPCE">UPC-E — bản rút gọn của UPC</option>
+              <option value="CODE128A">CODE128-A</option>
+              <option value="CODE128B">CODE128-B</option>
+              <option value="CODE128C">CODE128-C (chỉ số, chẵn chữ số)</option>
+              <option value="ITF">ITF — chỉ số, chẵn chữ số</option>
+              <option value="ITF14">ITF-14 — mã thùng carton (13–14 số)</option>
+              <option value="MSI">MSI</option>
+              <option value="MSI10">MSI-10</option>
+              <option value="MSI11">MSI-11</option>
+              <option value="MSI1010">MSI-1010</option>
+              <option value="MSI1110">MSI-1110</option>
+              <option value="codabar">Codabar — y tế, thư viện</option>
+              <option value="pharmacode">Pharmacode — dược phẩm (3–131070)</option>
+            </optgroup>
+          </select>
+          <p class="hint" id="bc-format-hint"></p>
+        </div>
+
+        <div class="field">
+          <label for="bc-value">Nội dung mã</label>
+          <input type="text" id="bc-value" placeholder="Nhập nội dung...">
+        </div>
+
+        <details class="advanced">
+          <summary>Tuỳ chỉnh hiển thị</summary>
+          <div class="row">
+            <div class="field">
+              <label for="bc-width">Độ rộng vạch (px)</label>
+              <input type="number" id="bc-width" min="1" max="8" step="0.5" value="2">
+            </div>
+            <div class="field">
+              <label for="bc-height">Chiều cao vạch (px)</label>
+              <input type="number" id="bc-height" min="20" max="300" step="5" value="100">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bc-margin">Lề trắng (px)</label>
+              <input type="number" id="bc-margin" min="0" max="60" step="2" value="10">
+            </div>
+            <div class="field">
+              <label for="bc-fontsize">Cỡ chữ (px)</label>
+              <input type="number" id="bc-fontsize" min="8" max="48" step="1" value="20">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bc-fg">Màu vạch</label>
+              <input type="color" id="bc-fg" value="#141414">
+            </div>
+            <div class="field">
+              <label for="bc-bg">Màu nền</label>
+              <input type="color" id="bc-bg" value="#ffffff">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bc-align">Vị trí chữ</label>
+              <select id="bc-align">
+                <option value="center">Giữa</option>
+                <option value="left">Trái</option>
+                <option value="right">Phải</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="bc-scale">Độ nét ảnh PNG</label>
+              <select id="bc-scale">
+                <option value="1">1× (màn hình)</option>
+                <option value="3" selected>3× (in ấn)</option>
+                <option value="6">6× (in khổ lớn)</option>
+              </select>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="bc-display" checked> Hiện chữ dưới mã vạch</label>
+          <label class="check"><input type="checkbox" id="bc-transparent"> Nền trong suốt</label>
+        </details>
+
+        <p class="warn" id="bc-error" hidden></p>
+      </section>
+    </div>
+
+    <!-- ============ Cột phải: xem trước ============ -->
+    <aside class="preview">
+      <div class="preview-inner">
+        <div class="stage" id="stage">
+          <div class="stage-box" id="stage-box"><!-- SVG được chèn vào đây --></div>
+        </div>
+        <p class="meta" id="meta"></p>
+        <div class="actions">
+          <button class="btn" id="dl-png">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L12 17.4l-4.7-5.7 1.4-1.4L12 13.6V3h0zM5 19h14v2H5v-2z"/></svg>
+            Tải PNG
+          </button>
+          <button class="btn ghost" id="dl-svg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L12 17.4l-4.7-5.7 1.4-1.4L12 13.6V3h0zM5 19h14v2H5v-2z"/></svg>
+            Tải SVG
+          </button>
+          <button class="btn ghost" id="copy-png" title="Sao chép ảnh vào clipboard">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+            Sao chép
+          </button>
+          <button class="btn ghost" id="do-print">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 8H5a3 3 0 0 0-3 3v6h4v4h12v-4h4v-6a3 3 0 0 0-3-3zm-3 11H8v-5h8v5zm3-7a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM18 3H6v4h12V3z"/></svg>
+            In
+          </button>
+        </div>
+        <p class="toast" id="toast" hidden></p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="notes">
+    <div class="note">
+      <h3>Chọn chuẩn nào?</h3>
+      <p><strong>Mã QR</strong> chứa được link, văn bản dài, Wi-Fi, danh thiếp — quét bằng camera điện thoại. <strong>CODE128</strong> hợp cho mã nội bộ (kho, tài sản, đơn hàng). <strong>EAN-13</strong> dành cho hàng bán lẻ và phải do GS1 cấp.</p>
+    </div>
+    <div class="note">
+      <h3>In cho chuẩn</h3>
+      <p>Tải SVG nếu định phóng to hoặc gửi nhà in — ảnh vector không vỡ ở mọi kích thước. Chọn PNG khi cần dán nhanh vào Word, Canva hay chat. Luôn chừa lề trắng quanh mã, đừng cắt sát.</p>
+    </div>
+    <div class="note">
+      <h3>Dữ liệu của bạn ở đâu?</h3>
+      <p>Ở nguyên trên máy bạn. Trang này không có máy chủ xử lý: toàn bộ mã được sinh bằng JavaScript ngay trong tab trình duyệt. Tắt mạng vẫn dùng được sau khi trang đã tải xong.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; <span id="year"></span> Pham Danh Quyen</span>
+    <span><a href="../../">Trang chủ</a> &middot; <a href="../../games/">Game vui</a></span>
+  </footer>
+
+</div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/JsBarcode.all.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
