@@ -62,6 +62,51 @@
   }
   .btn:hover{background:#000;transform:translateY(-2px)}
 
+  /* ===== Nav menu ===== */
+  .nav{display:flex;align-items:center;gap:6px}
+  .nav-item{position:relative}
+  .nav-link{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 16px;border-radius:999px;
+    font-size:14px;font-weight:600;color:var(--ink);
+    text-decoration:none;
+    transition:background .15s ease;
+  }
+  .nav-link:hover{background:var(--teal-soft);color:var(--teal-ink)}
+  .nav-link .caret{
+    width:8px;height:8px;
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:rotate(45deg) translateY(-2px);
+    transition:transform .15s ease;
+  }
+  .nav-item:hover .nav-link .caret,
+  .nav-item:focus-within .nav-link .caret{transform:rotate(225deg) translateY(-1px)}
+  .dropdown{
+    position:absolute;top:calc(100% + 8px);left:0;
+    min-width:210px;
+    background:var(--surface);
+    border:1px solid #ececec;
+    border-radius:var(--radius-md);
+    box-shadow:0 16px 40px rgba(0,0,0,.12);
+    padding:8px;
+    opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:opacity .15s ease, transform .15s ease, visibility .15s;
+    z-index:50;
+  }
+  .nav-item:hover .dropdown,
+  .nav-item:focus-within .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown::before{content:"";position:absolute;top:-8px;left:0;right:0;height:8px}
+  .dropdown a{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 12px;border-radius:12px;
+    font-size:14px;font-weight:500;color:var(--ink);
+    text-decoration:none;
+    transition:background .15s ease;
+  }
+  .dropdown a:hover{background:var(--teal-soft);color:var(--teal-ink)}
+  .dropdown a .emoji{font-size:16px;line-height:1}
+  .dropdown .divider{height:1px;background:#ececec;margin:6px 8px}
+
   /* ===== Hero ===== */
   .hero{
     display:grid;
@@ -226,6 +271,12 @@
     .hero{grid-template-columns:1fr;padding:28px 24px 44px;gap:40px}
     header{padding:18px 22px}
   }
+  @media (max-width:640px){
+    header{flex-wrap:wrap;gap:8px}
+    header .btn{display:none} /* CTA vẫn còn trong hero */
+    .nav-link{padding:8px 12px}
+    .nav-item:last-child .dropdown{left:auto;right:0}
+  }
   @media (max-width:480px){
     body{padding:8px}
     .bento{grid-template-columns:1fr}
@@ -242,6 +293,24 @@
       <span class="mark">Q</span>
       <span class="name">Pham Danh Quyen</span>
     </a>
+    <nav class="nav" aria-label="Main menu">
+      <div class="nav-item">
+        <a class="nav-link" href="tools/barcode-qr/">Tools <span class="caret"></span></a>
+        <div class="dropdown">
+          <a href="tools/barcode-qr/"><span class="emoji">&#128290;</span> QR &amp; Barcode Generator</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a class="nav-link" href="games/">Games <span class="caret"></span></a>
+        <div class="dropdown">
+          <a href="games/"><span class="emoji">&#127918;</span> All Games</a>
+          <div class="divider"></div>
+          <a href="games/2048/"><span class="emoji">&#128288;</span> 2048</a>
+          <a href="games/graphwar/"><span class="emoji">&#128200;</span> Graphwar</a>
+          <a href="games/sky-dash/"><span class="emoji">&#128640;</span> Sky Dash</a>
+        </div>
+      </div>
+    </nav>
     <a class="btn" href="mailto:danhquyen.work@gmail.com">Book a call</a>
   </header>
 
