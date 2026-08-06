@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đổi đuôi ảnh &amp; video online</title>
+<meta name="description" content="Công cụ đổi đuôi ảnh và video miễn phí, chạy hoàn toàn trong trình duyệt. Đổi PNG, JPG, WEBP, MP4, WEBM, MP3… nén và đổi kích thước, xử lý hàng loạt rồi tải về ZIP. File không rời khỏi máy bạn.">
+<meta name="theme-color" content="#e9e9e7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111'/><g fill='white'><path d='M22 30h30v10H22z'/><path d='M22 46h22v10H22z'/><path d='M60 26l20 24-20 24z'/><path d='M22 62h30v10H22z'/></g></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <a class="brand" href="../../">
+      <span class="mark">Q</span>
+      <span class="name">Pham Danh Quyen</span>
+    </a>
+    <span class="pill">Chạy offline trong trình duyệt</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">Tiện ích</span>
+    <h1>Đổi đuôi <em>ảnh &amp; video</em> ngay trên máy bạn.</h1>
+    <p>Thả file vào, chọn đuôi muốn đổi, bấm một nút. Nén nhẹ đi, đổi kích thước, tách nhạc ra khỏi video, làm nhiều file cùng lúc rồi tải về một file ZIP. Không upload, không đăng ký — bộ giải mã chạy thẳng trong tab trình duyệt.</p>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Loại chuyển đổi">
+    <button class="tab is-active" role="tab" id="tab-img" aria-controls="panel-img" aria-selected="true" data-panel="img">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 5H3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1zm-1 12H4v-1.6l4.2-4.2 3.3 3.3 4.3-4.3L20 14.1V17zM8.5 11a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5z"/></svg>
+      Ảnh
+    </button>
+    <button class="tab" role="tab" id="tab-vid" aria-controls="panel-vid" aria-selected="false" data-panel="vid">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h11a2 2 0 0 1 2 2v3.2l4-2.7v9l-4-2.7V17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+      Video
+    </button>
+    <button class="tab" role="tab" id="tab-aud" aria-controls="panel-aud" aria-selected="false" data-panel="aud">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v11.6A4 4 0 1 0 14 18V7h5V3h-7z"/></svg>
+      Âm thanh
+    </button>
+  </div>
+
+  <main class="work">
+
+    <!-- ============ Cột trái: thả file + hàng đợi ============ -->
+    <div class="queue-col">
+
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Chọn hoặc kéo thả file vào đây">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l5 5h-3v6h-4V8H7l5-5zM5 18h14v2H5v-2z"/></svg>
+        <strong id="drop-title">Kéo thả ảnh vào đây</strong>
+        <span id="drop-sub">hoặc bấm để chọn từ máy — chọn được nhiều file một lúc</span>
+        <input type="file" id="picker" multiple hidden>
+      </div>
+
+      <p class="warn" id="global-error" hidden></p>
+
+      <div class="loader" id="loader" hidden>
+        <div class="loader-head">
+          <strong id="loader-title">Đang tải bộ giải mã…</strong>
+          <span id="loader-pct">0%</span>
+        </div>
+        <div class="bar"><i id="loader-bar" style="width:0%"></i></div>
+        <p class="hint">Bộ giải mã FFmpeg nặng khoảng 32&nbsp;MB, chỉ tải một lần rồi trình duyệt nhớ lại cho lần sau.</p>
+      </div>
+
+      <ul class="files" id="files"></ul>
+
+      <p class="empty" id="empty">Chưa có file nào. Thả vài file vào ô phía trên để bắt đầu.</p>
+    </div>
+
+    <!-- ============ Cột phải: thiết lập ============ -->
+    <aside class="settings">
+      <div class="settings-inner">
+
+        <!-- ---------- ẢNH ---------- -->
+        <section class="panel is-active" id="panel-img" role="tabpanel" aria-labelledby="tab-img">
+          <div class="field">
+            <label for="img-format">Đổi sang đuôi</label>
+            <select id="img-format">
+              <option value="png">PNG — nét, giữ nền trong suốt</option>
+              <option value="jpg" selected>JPG — nhẹ nhất, ảnh chụp</option>
+              <option value="webp">WEBP — nhẹ hơn JPG, vẫn có nền trong</option>
+              <option value="gif">GIF — ảnh động, ít màu</option>
+              <option value="bmp">BMP — không nén</option>
+              <option value="tiff">TIFF — in ấn</option>
+              <option value="ico">ICO — favicon, icon Windows</option>
+            </select>
+            <p class="hint" id="img-format-hint"></p>
+          </div>
+
+          <div class="field" id="img-quality-wrap">
+            <label for="img-quality">Chất lượng <span class="val" id="img-quality-val">82</span></label>
+            <input type="range" id="img-quality" min="30" max="100" step="1" value="82">
+            <p class="hint">Kéo xuống thấp thì file nhẹ đi nhưng ảnh bắt đầu rỗ. Khoảng 80 là chỗ mắt thường chưa thấy khác.</p>
+          </div>
+
+          <div class="field">
+            <label for="img-resize">Đổi kích thước</label>
+            <select id="img-resize">
+              <option value="none" selected>Giữ nguyên</option>
+              <option value="width">Theo chiều rộng tối đa</option>
+              <option value="height">Theo chiều cao tối đa</option>
+              <option value="fit">Vừa trong khung (giữ tỉ lệ)</option>
+              <option value="exact">Đúng kích thước (có thể méo)</option>
+            </select>
+            <p class="hint" id="img-resize-hint"></p>
+          </div>
+          <div class="row" id="img-size-wrap" hidden>
+            <div class="field">
+              <label for="img-w">Rộng (px)</label>
+              <input type="number" id="img-w" min="1" max="20000" step="1" value="1920">
+            </div>
+            <div class="field">
+              <label for="img-h">Cao (px)</label>
+              <input type="number" id="img-h" min="1" max="20000" step="1" value="1080">
+            </div>
+          </div>
+
+          <details class="advanced">
+            <summary>Tuỳ chọn thêm</summary>
+            <div class="field">
+              <label for="img-bg">Nền thay cho vùng trong suốt</label>
+              <input type="color" id="img-bg" value="#ffffff">
+              <p class="hint">JPG và BMP không có kênh trong suốt. Vùng trong sẽ được tô bằng màu này thay vì thành đen.</p>
+            </div>
+            <label class="check"><input type="checkbox" id="img-upscale"> Cho phép phóng to ảnh vốn đã nhỏ hơn</label>
+            <p class="hint">Mặc định ảnh nhỏ hơn kích thước đích sẽ được giữ nguyên, vì kéo giãn lên chỉ làm ảnh mờ chứ không thêm chi tiết nào.</p>
+          </details>
+        </section>
+
+        <!-- ---------- VIDEO ---------- -->
+        <section class="panel" id="panel-vid" role="tabpanel" aria-labelledby="tab-vid">
+          <div class="field">
+            <label for="vid-format">Đổi sang đuôi</label>
+            <select id="vid-format">
+              <option value="mp4" selected>MP4 — H.264, mở được ở mọi nơi</option>
+              <option value="webm">WEBM — VP8, cho web</option>
+              <option value="mkv">MKV — H.264 trong hộp Matroska</option>
+              <option value="mov">MOV — H.264 cho máy Apple</option>
+              <option value="avi">AVI — MPEG-4 kiểu cũ</option>
+              <option value="gif">GIF — ảnh động, không tiếng</option>
+            </select>
+            <p class="hint" id="vid-format-hint"></p>
+          </div>
+
+          <div class="field">
+            <label for="vid-quality">Chất lượng</label>
+            <select id="vid-quality">
+              <option value="high">Cao — gần như bản gốc</option>
+              <option value="medium" selected>Vừa — cân bằng</option>
+              <option value="small">Nhỏ gọn — ưu tiên nhẹ file</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="vid-res">Độ phân giải</label>
+              <select id="vid-res">
+                <option value="0" selected>Giữ nguyên</option>
+                <option value="1080">1080p</option>
+                <option value="720">720p</option>
+                <option value="480">480p</option>
+                <option value="360">360p</option>
+                <option value="240">240p</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="vid-fps">Khung hình / giây</label>
+              <select id="vid-fps">
+                <option value="0" selected>Giữ nguyên</option>
+                <option value="30">30</option>
+                <option value="24">24</option>
+                <option value="15">15</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+
+          <details class="advanced">
+            <summary>Tuỳ chọn thêm</summary>
+            <div class="field">
+              <label for="vid-preset">Tốc độ nén</label>
+              <select id="vid-preset">
+                <option value="ultrafast" selected>Nhanh nhất — file to hơn chút</option>
+                <option value="veryfast">Nhanh</option>
+                <option value="medium">Chậm — file nhẹ nhất</option>
+              </select>
+              <p class="hint">FFmpeg trong trình duyệt chỉ chạy một luồng nên chậm hơn app trên máy khá nhiều. Cứ để «Nhanh nhất» trừ khi bạn thật sự cần file nhỏ.</p>
+            </div>
+            <div class="field">
+              <label for="vid-trim">Chỉ lấy vài giây đầu</label>
+              <input type="number" id="vid-trim" min="0" max="36000" step="1" value="0" placeholder="0 = lấy cả video">
+              <p class="hint">Điền số giây để cắt thử một đoạn ngắn trước — đỡ phải ngồi chờ cả video mới biết cài đặt có vừa ý không.</p>
+            </div>
+            <label class="check"><input type="checkbox" id="vid-mute"> Bỏ âm thanh</label>
+          </details>
+        </section>
+
+        <!-- ---------- ÂM THANH ---------- -->
+        <section class="panel" id="panel-aud" role="tabpanel" aria-labelledby="tab-aud">
+          <div class="field">
+            <label for="aud-format">Đổi sang đuôi</label>
+            <select id="aud-format">
+              <option value="mp3" selected>MP3 — mở được ở mọi nơi</option>
+              <option value="m4a">M4A — AAC, nhẹ hơn MP3 cùng mức</option>
+              <option value="wav">WAV — không nén, chuẩn biên tập</option>
+              <option value="flac">FLAC — nén không mất chất</option>
+              <option value="ogg">OGG — Vorbis, mã nguồn mở</option>
+            </select>
+            <p class="hint" id="aud-format-hint"></p>
+          </div>
+
+          <div class="field" id="aud-bitrate-wrap">
+            <label for="aud-bitrate">Bitrate</label>
+            <select id="aud-bitrate">
+              <option value="320">320 kbps — cao nhất</option>
+              <option value="256">256 kbps</option>
+              <option value="192" selected>192 kbps — nghe nhạc thoải mái</option>
+              <option value="128">128 kbps — tiêu chuẩn</option>
+              <option value="96">96 kbps — lời thoại, podcast</option>
+              <option value="64">64 kbps — nhẹ nhất</option>
+            </select>
+          </div>
+
+          <details class="advanced">
+            <summary>Tuỳ chọn thêm</summary>
+            <div class="field">
+              <label for="aud-rate">Tần số lấy mẫu</label>
+              <select id="aud-rate">
+                <option value="0" selected>Giữ nguyên</option>
+                <option value="48000">48 000 Hz — video</option>
+                <option value="44100">44 100 Hz — nhạc CD</option>
+                <option value="22050">22 050 Hz</option>
+              </select>
+            </div>
+            <label class="check"><input type="checkbox" id="aud-mono"> Gộp về một kênh (mono)</label>
+          </details>
+          <p class="hint">Thả cả file video vào đây cũng được — phần hình sẽ bị bỏ, chỉ giữ lại tiếng.</p>
+        </section>
+
+        <div class="actions">
+          <button class="btn" id="run">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h9l3 3h4v13H4V4zm8 5.5V13H9.5l3.5 4 3.5-4H14V9.5h-2z"/></svg>
+            <span id="run-label">Chuyển đổi</span>
+          </button>
+          <button class="btn ghost" id="stop" hidden>Dừng lại</button>
+          <button class="btn ghost" id="dl-zip" disabled>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L12 17.4l-4.7-5.7 1.4-1.4L12 13.6V3zM5 19h14v2H5v-2z"/></svg>
+            Tải tất cả (.zip)
+          </button>
+          <button class="btn ghost" id="clear" disabled>Xoá danh sách</button>
+        </div>
+        <p class="toast" id="toast" hidden></p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="notes">
+    <div class="note">
+      <h3>Chọn đuôi nào?</h3>
+      <p><strong>JPG</strong> cho ảnh chụp, <strong>PNG</strong> khi cần nền trong hoặc chữ sắc nét, <strong>WEBP</strong> khi muốn nhẹ mà vẫn đẹp. Video thì <strong>MP4</strong> gần như mở được ở mọi máy; <strong>WEBM</strong> hợp nhúng thẳng vào web.</p>
+    </div>
+    <div class="note">
+      <h3>Vì sao video hơi lâu?</h3>
+      <p>Cả bộ FFmpeg đang chạy bằng WebAssembly ngay trong tab, một luồng duy nhất — nên nén video chậm hơn app cài trên máy. Ảnh và âm thanh thì gần như tức thì. Video dài nên hạ độ phân giải xuống, hoặc cắt thử vài giây đầu trước.</p>
+    </div>
+    <div class="note">
+      <h3>File của bạn ở đâu?</h3>
+      <p>Ở nguyên trên máy bạn. Trang này không có máy chủ xử lý và không gửi byte nào đi đâu cả. Tải xong trang rồi thì rút mạng vẫn dùng bình thường. Đổi lại, file phải nằm vừa trong bộ nhớ của tab — video trên khoảng 500&nbsp;MB dễ báo hết bộ nhớ, nên cắt ngắn hoặc hạ độ phân giải trước.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; <span id="year"></span> Pham Danh Quyen</span>
+    <span><a href="../../">Trang chủ</a> &middot; <a href="../">Tiện ích khác</a> &middot; <a href="../../games/">Game vui</a></span>
+  </footer>
+
+</div>
+
+<script src="vendor/jszip.min.js"></script>
+<script src="vendor/ffmpeg.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

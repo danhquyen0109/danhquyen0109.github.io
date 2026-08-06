@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <g fill="#fff">
+    <!-- Thẻ ảnh bên trái: khung, mặt trời, dãy núi -->
+    <path d="M8 20h30a6 6 0 0 1 6 6v68a6 6 0 0 1-6 6H8a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6zm-2 62h34v-8L30 60 21 71l-6-6-9 9v8z" opacity=".92"/>
+    <circle cx="16" cy="36" r="6"/>
+
+    <!-- Thẻ video bên phải: khung, nút play -->
+    <path d="M82 20h30a6 6 0 0 1 6 6v68a6 6 0 0 1-6 6H82a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6z" opacity=".92"/>
+    <path d="M91 44l22 16-22 16V44z" fill="#8f8ff5"/>
+
+    <!-- Hai mũi tên đổi qua đổi lại ở giữa -->
+    <path d="M50 42h14l-6-6 6-6 16 12-16 12-6-6 6-6H50v-6z" transform="translate(0 4)"/>
+    <path d="M70 78H56l6 6-6 6-16-12 16-12 6 6-6 6h14v6z" transform="translate(0 -4)"/>
+  </g>
+</svg>

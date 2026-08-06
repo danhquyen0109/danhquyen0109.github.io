@@ -101,6 +101,8 @@
     padding:10px 12px;border-radius:12px;
     font-size:14px;font-weight:500;color:var(--ink);
     text-decoration:none;
+    /* Để nhãn dài như "Image & Video Converter" nằm gọn một dòng, hộp tự nới ra. */
+    white-space:nowrap;
     transition:background .15s ease;
   }
   .dropdown a:hover{background:var(--teal-soft);color:var(--teal-ink)}
@@ -295,8 +297,11 @@
     </a>
     <nav class="nav" aria-label="Main menu">
       <div class="nav-item">
-        <a class="nav-link" href="tools/barcode-qr/">Tools <span class="caret"></span></a>
+        <a class="nav-link" href="tools/">Tools <span class="caret"></span></a>
         <div class="dropdown">
+          <a href="tools/"><span class="emoji">&#128736;</span> All Tools</a>
+          <div class="divider"></div>
+          <a href="tools/media-convert/"><span class="emoji">&#128260;</span> Image &amp; Video Converter</a>
           <a href="tools/barcode-qr/"><span class="emoji">&#128290;</span> QR &amp; Barcode Generator</a>
         </div>
       </div>

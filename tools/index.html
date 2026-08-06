@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiện ích online</title>
+<meta name="description" content="Bộ tiện ích miễn phí chạy thẳng trong trình duyệt của Phạm Danh Quyền — tạo mã QR, mã vạch, đổi đuôi ảnh và video. Không cài đặt, không đăng ký, dữ liệu không rời khỏi máy bạn.">
+<meta name="theme-color" content="#e9e9e7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23111'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>Q</text></svg>">
+<style>
+  :root{
+    --bg:#e9e9e7;
+    --surface:#ffffff;
+    --ink:#141414;
+    --muted:#6b6b6b;
+    --teal:#19c2c2;
+    --teal-soft:#d9f4f6;
+    --teal-ink:#0c7d86;
+    --radius-lg:28px;
+    --radius-md:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:14px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{
+    max-width:1240px;
+    margin:0 auto;
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+  }
+
+  header{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:22px 36px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+  .brand .mark{
+    width:34px;height:34px;border-radius:50%;
+    border:2.5px solid var(--ink);
+    display:grid;place-items:center;
+    font-weight:800;font-size:16px;
+  }
+  .brand .name{font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+  .pill{
+    background:var(--teal-soft);color:var(--teal-ink);
+    font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:7px 14px;border-radius:999px;
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    padding:26px 36px 40px;
+    border-bottom:1px solid #eee;
+  }
+  .eyebrow{
+    display:inline-block;
+    background:var(--teal-soft);color:var(--teal-ink);
+    font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    padding:7px 14px;border-radius:999px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(34px,6vw,60px);
+    font-weight:900;line-height:1.05;letter-spacing:-.02em;
+    max-width:16ch;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal-ink)}
+  .hero p{
+    margin-top:16px;color:var(--muted);
+    font-size:16px;line-height:1.6;max-width:56ch;
+  }
+
+  /* ===== Grid ===== */
+  .section{padding:36px}
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:12px;margin-bottom:22px;flex-wrap:wrap;
+  }
+  .section-head h2{font-size:20px;font-weight:800;letter-spacing:-.01em}
+  .section-head span{font-size:13px;color:var(--muted)}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:20px;
+  }
+
+  .card{
+    display:flex;flex-direction:column;
+    background:var(--surface);
+    border:1px solid #ececec;
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    text-decoration:none;color:inherit;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 34px rgba(0,0,0,.11);
+    border-color:#dcdcdc;
+  }
+
+  .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    background-size:cover;background-position:center;
+    display:grid;place-items:center;
+    overflow:hidden;
+  }
+  /* Chút tối ở rìa để icon trắng ở giữa không bị nền sáng nuốt mất. */
+  .thumb::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(10,30,45,.26) 0%,rgba(10,30,45,.04) 55%,rgba(10,30,45,.20) 100%);
+  }
+  .thumb .tag,.thumb .sprite,.thumb .placeholder{position:relative;z-index:1}
+  .thumb .sprite{
+    width:30%;max-width:112px;height:auto;
+    filter:drop-shadow(0 8px 12px rgba(0,0,0,.28));
+    transition:transform .25s ease;
+  }
+  .card:hover .thumb .sprite{transform:translateY(-6px) rotate(-6deg) scale(1.06)}
+  .thumb .tag{
+    position:absolute;top:12px;left:12px;
+    background:rgba(20,20,20,.82);color:#fff;
+    font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:6px 11px;border-radius:999px;
+    backdrop-filter:blur(4px);
+  }
+
+  .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .card-body h3{font-size:18px;font-weight:800;letter-spacing:-.01em}
+  .card-body p{font-size:14px;line-height:1.55;color:var(--muted);flex:1}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .chip{
+    font-size:11px;font-weight:600;
+    background:#f4f4f3;color:#555;
+    padding:5px 10px;border-radius:999px;
+  }
+  .play-line{
+    display:flex;align-items:center;gap:7px;
+    margin-top:10px;
+    font-size:13px;font-weight:700;color:var(--teal-ink);
+  }
+  .play-line svg{transition:transform .18s ease}
+  .card:hover .play-line svg{transform:translateX(4px)}
+
+  /* Thẻ "sắp có" */
+  .card.soon{
+    border-style:dashed;background:#fbfbfa;cursor:default;
+  }
+  .card.soon:hover{transform:none;box-shadow:none;border-color:#ececec}
+  .card.soon .thumb{
+    background:repeating-linear-gradient(45deg,#f3f3f2,#f3f3f2 12px,#ededec 12px,#ededec 24px);
+  }
+  .card.soon .thumb::after{background:none}
+  .card.soon .thumb .placeholder{
+    font-size:34px;opacity:.35;
+  }
+
+  /* ===== Ghi chú ===== */
+  .notes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;
+    padding:0 36px 40px;
+  }
+  .note{
+    border:1px solid #ececec;
+    border-radius:var(--radius-md);
+    padding:20px;
+    background:#fbfbfa;
+  }
+  .note h3{font-size:15px;font-weight:800;margin-bottom:8px}
+  .note p{font-size:14px;line-height:1.6;color:var(--muted)}
+  .note strong{color:var(--ink);font-weight:700}
+
+  footer{
+    padding:26px 36px 34px;
+    border-top:1px solid #eee;
+    display:flex;justify-content:space-between;align-items:center;
+    gap:14px;flex-wrap:wrap;
+    font-size:13px;color:var(--muted);
+  }
+  footer a{color:var(--ink);text-decoration:none;font-weight:600}
+  footer a:hover{color:var(--teal-ink)}
+
+  @media (max-width:640px){
+    body{padding:8px}
+    header{padding:18px 20px}
+    .pill{display:none}
+    .hero{padding:20px 20px 30px}
+    .section{padding:26px 20px}
+    .notes{padding:0 20px 30px}
+    footer{padding:22px 20px 28px}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <a class="brand" href="../">
+      <span class="mark">Q</span>
+      <span class="name">Pham Danh Quyen</span>
+    </a>
+    <span class="pill">Chạy offline trong trình duyệt</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">Tiện ích</span>
+    <h1>Việc nhỏ, <em>làm ngay trong tab.</em></h1>
+    <p>Mấy việc lặt vặt mà đáng ra không cần phải cài phần mềm hay tải file lên máy chủ của người lạ. Mở là dùng, không đăng ký, và mọi thứ xử lý ngay trên máy bạn.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Tất cả tiện ích</h2>
+      <span id="count"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="notes">
+    <div class="note">
+      <h3>Không có máy chủ nào cả</h3>
+      <p>Mấy trang này không có backend. Nội dung bạn gõ và file bạn thả vào được xử lý bằng JavaScript ngay trong tab — <strong>không có byte nào rời khỏi máy bạn</strong>, kể cả ảnh chụp màn hình hay video riêng tư.</p>
+    </div>
+    <div class="note">
+      <h3>Tải xong là dùng được offline</h3>
+      <p>Thư viện cần thiết đều đóng gói kèm trang thay vì gọi từ CDN. Trang tải xong rồi thì rút mạng vẫn chạy bình thường, và cũng không phụ thuộc vào việc bên thứ ba có còn sống hay không.</p>
+    </div>
+    <div class="note">
+      <h3>Miễn phí, không giới hạn</h3>
+      <p>Không đăng ký, không giới hạn số lần, không đóng dấu chìm lên kết quả. Tôi viết mấy thứ này vì tự mình cần dùng — ai thấy tiện thì cứ dùng thoải mái.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; <span id="year"></span> Pham Danh Quyen</span>
+    <span><a href="../">Trang chủ</a> &middot; <a href="../games/">Game vui</a></span>
+  </footer>
+
+</div>
+
+<script>
+/* Thêm tiện ích mới chỉ cần nối thêm một mục vào đây. */
+const TOOLS = [
+  {
+    slug: 'media-convert',
+    title: 'Đổi đuôi ảnh & video',
+    tag: 'Mới',
+    blurb: 'Thả file vào, chọn đuôi muốn đổi, bấm một nút. Nén nhẹ đi, đổi kích thước, tách nhạc ra khỏi video, làm nhiều file cùng lúc rồi tải về một file ZIP.',
+    chips: ['Ảnh', 'Video', 'Âm thanh', 'Hàng loạt'],
+    art: 'assets/convert-art.svg',
+    sprite: 'assets/convert-icon.svg',
+  },
+  {
+    slug: 'barcode-qr',
+    title: 'Tạo mã QR & mã vạch',
+    blurb: 'Gõ nội dung là mã hiện ra ngay — link, Wi-Fi, danh thiếp, hay mã vạch hàng hoá theo chuẩn EAN, CODE128. Tải về PNG để in hoặc SVG để chỉnh tiếp.',
+    chips: ['Mã QR', 'Mã vạch', 'PNG & SVG'],
+    art: 'assets/qr-art.svg',
+    sprite: 'assets/qr-icon.svg',
+  },
+];
+
+const grid = document.getElementById('grid');
+const arrow = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+grid.innerHTML = TOOLS.map(t => `
+  <a class="card" href="${t.slug}/">
+    <div class="thumb" style="background-image:url('${t.art}')">
+      ${t.tag ? `<span class="tag">${t.tag}</span>` : ''}
+      <img class="sprite" src="${t.sprite}" alt="" loading="lazy">
+    </div>
+    <div class="card-body">
+      <h3>${t.title}</h3>
+      <p>${t.blurb}</p>
+      <div class="chips">${t.chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+      <span class="play-line">Dùng ngay ${arrow}</span>
+    </div>
+  </a>
+`).join('') + `
+  <div class="card soon">
+    <div class="thumb"><span class="placeholder">&#128736;</span></div>
+    <div class="card-body">
+      <h3>Sắp có thêm</h3>
+      <p>Đang có vài thứ nằm trên bàn làm việc. Ghé lại sau nhé.</p>
+      <div class="chips"><span class="chip">Sắp ra mắt</span></div>
+    </div>
+  </div>`;
+
+document.getElementById('count').textContent = TOOLS.length + ' tiện ích đang chạy';
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* Link kiểu "barcode-qr/" giúp URL công bố không lòi ra index.html — máy chủ web
+   (GitHub Pages cũng vậy) tự phục vụ trang index của thư mục. Mở thẳng file từ ổ
+   đĩa thì không có máy chủ nào cả, nên file:// sẽ hiện danh sách thư mục. Chỉ
+   trong trường hợp đó mới trỏ link thẳng vào file. */
+if (location.protocol === 'file:') {
+  document.querySelectorAll('a[href$="/"]').forEach(a =>
+    a.setAttribute('href', a.getAttribute('href') + 'index.html'));
+}
+</script>
+</body>
+</html>
