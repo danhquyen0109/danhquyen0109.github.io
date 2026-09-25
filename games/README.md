@@ -26,11 +26,21 @@ games/
 │       ├── sounds/
 │       ├── thumb.svg
 │       └── thumb-tile.svg
-└── graphwar/
+├── graphwar/
+│   ├── index.html
+│   ├── style.css
+│   ├── game.js
+│   ├── CREDITS.md
+│   └── assets/
+│       ├── sounds/
+│       ├── thumb.svg
+│       └── thumb-icon.svg
+└── caro/
     ├── index.html
     ├── style.css
     ├── game.js
     ├── CREDITS.md
+    ├── vendor/peerjs.min.js   ← loaded only for online play
     └── assets/
         ├── sounds/
         ├── thumb.svg
@@ -142,6 +152,40 @@ Implementation notes:
   100% for easy / normal / hard.
 - The name belongs to an existing freeware game of the same concept; see
   [`graphwar/CREDITS.md`](graphwar/CREDITS.md) before publishing this as a product.
+
+### Caro — [`caro/`](caro/)
+
+Five in a row on a 15×15 board, against the computer, two players on one device, or two
+players online with a room link.
+
+| | |
+|---|---|
+| Controls | Click / tap a square · `N` new game · `U` undo · `M` mute · `H` help |
+| Modes | vs Computer (easy / normal / hard), 2-player hot-seat, Online (room link) |
+| Rules | Five or more in a row wins; optional Vietnamese rule where a five capped by the opponent at *both* ends doesn't count. The opening side alternates every game |
+| Saved locally | Mode, level, rule, mute and the win tally — `localStorage` key `caro.v1` |
+| Assets | Board and marks are CSS/SVG; sounds by Kenney, CC0; PeerJS, MIT — see [`caro/CREDITS.md`](caro/CREDITS.md) |
+
+Implementation notes:
+
+- **Online play has no backend of ours.** The host's browser registers a random room id
+  (`caro-xxxxxx`) with PeerJS's free public signalling server; the link carries that id,
+  and the friend's browser uses it to open a WebRTC data channel straight to the host.
+  Moves then go peer-to-peer. `vendor/peerjs.min.js` is loaded only when Online is picked.
+- The host is X and its board is the source of truth. Every message carries the game
+  number and move index; anything that doesn't line up (a race on "new game", a dropped
+  message, a reconnect) makes the host resend its full state instead of trying to merge.
+- Both sides ping every 4s and treat 15s of silence as a disconnect, because a closed tab
+  or a locked phone often drops the channel without ever firing `close`. The host keeps
+  the room open, so the friend can reopen the same link and carry on.
+- Strict networks (some corporate or mobile carrier NATs) can block the direct
+  connection. PeerJS falls back to its default public TURN relays; if those fail too the
+  guest sees "Couldn't reach your friend".
+- The computer scores each empty square near the stones by summing every 5-cell window
+  through it that the opponent hasn't blocked, weighted by how full the window is. That
+  single sum covers open lines, broken lines (`X_XX`) and double threats. Hard adds a
+  one-move look-ahead over the ten best squares; easy adds noise and sometimes misses
+  your winning move.
 
 ## Local preview
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Caro — danhquyen0109</title>
+<meta name="description" content="Caro (Gomoku) — get five in a row. Play the computer, a friend on the same device, or a friend online with a room link. Free in your browser.">
+<meta name="theme-color" content="#e9e9e7">
+<link rel="icon" href="assets/thumb-icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="app">
+
+  <header class="bar">
+    <a class="icon-btn" href="../" title="Back to games" aria-label="Back to games">&#8592;</a>
+    <h1 class="wordmark">Caro</h1>
+    <div class="players">
+      <div class="pill x" id="pill-x">
+        <i class="mark x" aria-hidden="true"></i>
+        <span class="who" id="name-x">You</span>
+        <strong id="wins-x">0</strong>
+      </div>
+      <div class="pill o" id="pill-o">
+        <i class="mark o" aria-hidden="true"></i>
+        <span class="who" id="name-o">Computer</span>
+        <strong id="wins-o">0</strong>
+      </div>
+    </div>
+  </header>
+
+  <div class="modes" role="radiogroup" aria-label="Game mode">
+    <button class="mode" role="radio" data-mode="ai">vs Computer</button>
+    <button class="mode" role="radio" data-mode="local">2 players</button>
+    <button class="mode" role="radio" data-mode="online">Online</button>
+  </div>
+
+  <!-- Options: level is vs Computer only; the rule applies to every mode -->
+  <div class="panel opts">
+    <label id="level-wrap">Level
+      <select id="level">
+        <option value="easy">Easy</option>
+        <option value="normal">Normal</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" id="block-rule"> Blocked five doesn't win</label>
+  </div>
+
+  <!-- Online room -->
+  <div class="panel online" id="panel-online" hidden>
+    <div class="room-idle" id="room-idle">
+      <p>Play a friend on another device. Create a room and send them the link — no account needed.</p>
+      <button class="btn" id="btn-create">Create room</button>
+    </div>
+    <div class="room-open" id="room-open" hidden>
+      <div class="link-row">
+        <input id="room-link" readonly aria-label="Room link">
+        <button class="btn" id="btn-copy">Copy</button>
+      </div>
+      <button class="btn ghost small" id="btn-share" hidden>Share&hellip;</button>
+    </div>
+    <div class="room-foot">
+      <span class="dot" id="net-dot"></span>
+      <span id="net-status">Not connected</span>
+      <button class="btn ghost small" id="btn-leave" hidden>Leave</button>
+      <button class="btn ghost small" id="btn-retry" hidden>Reconnect</button>
+    </div>
+  </div>
+
+  <div class="tools">
+    <button class="btn" id="btn-new">New game</button>
+    <button class="btn ghost" id="btn-undo" disabled>Undo</button>
+    <span class="turn" id="turn" aria-live="polite"></span>
+    <button class="btn ghost icon" id="btn-sound" title="Sound on/off" aria-label="Toggle sound">&#9834;</button>
+    <button class="btn ghost icon" id="btn-help" title="How to play" aria-label="How to play">?</button>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board" id="board" role="grid" aria-label="Caro board"></div>
+
+    <div class="board-overlay hidden" id="ov-end">
+      <div class="end-card">
+        <h2 id="end-title">You win!</h2>
+        <p id="end-sub">Five in a row.</p>
+        <div class="end-actions">
+          <button class="btn" id="btn-again">Play again</button>
+          <button class="btn ghost" id="btn-look">See board</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint">Tap a square to play &middot; <b>N</b> new game &middot; <b>U</b> undo &middot; <b>M</b> mute &middot; <b>H</b> help</p>
+
+  <footer class="foot">
+    <a href="../">&#8592; All games</a>
+    <span id="status" role="status" aria-live="polite"></span>
+  </footer>
+
+</main>
+
+<!-- How to play -->
+<div class="modal hidden" id="ov-help">
+  <div class="modal-card">
+    <h2>How to play</h2>
+    <ul>
+      <li>Players take turns placing <b>X</b> and <b>O</b> on the 15&times;15 board.</li>
+      <li>First to get <b>five in a row</b> — across, down or diagonally — wins.</li>
+      <li>With <b>&ldquo;Blocked five doesn't win&rdquo;</b> on (the common Vietnamese rule), a five with the opponent's stones capping <em>both</em> ends does not count.</li>
+      <li>The first move alternates every game.</li>
+      <li><b>Online:</b> create a room, send the link to a friend and wait for them to open it. The game runs directly between your two browsers — there is no game server.</li>
+    </ul>
+    <p class="tip">Tip: an open four (four with both ends empty) can't be stopped. Watch for open threes and block them early.</p>
+    <button class="btn" id="btn-help-close">Got it</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

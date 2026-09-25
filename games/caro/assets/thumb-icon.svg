@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="An X and an O">
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="#141414"/>
+  <path d="M28 34L56 62M56 34L28 62" stroke="#19c2c2" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="84" cy="80" r="17" fill="none" stroke="#f2ae3c" stroke-width="9"/>
+</svg>
