@@ -27,7 +27,7 @@ body{
 }
 
 #app{
-  width:100%;max-width:560px;
+  width:100%;max-width:720px;
   display:flex;flex-direction:column;gap:12px;
   padding-top:max(0px,env(safe-area-inset-top));
 }
@@ -153,10 +153,18 @@ body{
 
 /* ===== Board ===== */
 .board-wrap{position:relative;width:100%}
+/* A 30×30 board fits a desktop column at ~23px a square. Narrower screens keep that
+   minimum size so squares stay tappable, and the board scrolls inside this frame. */
+.scroller{
+  position:relative;overflow:auto;
+  border-radius:14px;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
 .board{
   display:grid;
-  grid-template-columns:repeat(15,1fr);
-  width:100%;aspect-ratio:1;
+  grid-template-columns:repeat(var(--n,30),1fr);
+  width:max(100%,calc(var(--n,30) * 23px));aspect-ratio:1;
   background:var(--paper);
   border:2px solid var(--ink);border-radius:14px;
   overflow:hidden;
@@ -168,8 +176,8 @@ body{
   border-right:1px solid var(--line);border-bottom:1px solid var(--line);
   cursor:pointer;
 }
-.cell:nth-child(15n){border-right:none}
-.cell:nth-last-child(-n+15){border-bottom:none}
+.cell.edge-r{border-right:none}
+.cell.edge-b{border-bottom:none}
 .board.locked .cell{cursor:default}
 .cell:not(.x):not(.o):hover{background:rgba(25,194,194,.1)}
 .board.locked .cell:not(.x):not(.o):hover{background:transparent}
@@ -183,7 +191,7 @@ body{
 .cell.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .cell.o::before{
   content:'';position:absolute;inset:19%;
-  border:max(2px,calc(var(--u,4px) * .75)) solid var(--o);border-radius:50%;
+  border:max(2px,calc(var(--cell,23px) * .11)) solid var(--o);border-radius:50%;
 }
 .cell.new::before,.cell.new::after{animation:stamp .18s ease-out}
 @keyframes stamp{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
@@ -247,6 +255,9 @@ body{
 .foot a:hover{color:var(--teal-ink)}
 #status{color:var(--teal-ink);font-weight:700;text-align:right}
 
+@media (max-width:720px){
+  .scroller{max-height:max(280px,calc(100dvh - 300px))}
+}
 @media (max-width:480px){
   body{padding:10px}
   .wordmark{font-size:26px}

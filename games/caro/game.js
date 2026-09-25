@@ -1,5 +1,5 @@
 /* ============================================================
-   Caro — five in a row on a 15×15 board.
+   Caro — five in a row on a 30×30 board.
    vs Computer, 2 players on one device, or online peer-to-peer
    (WebRTC via PeerJS — no game server of our own).
    Original implementation; sounds by Kenney (CC0). See CREDITS.md.
@@ -7,7 +7,7 @@
 (() => {
 'use strict';
 
-const N    = 15;
+const N    = 30;
 const SIZE = N * N;
 const WIN  = 5;
 const X = 1, O = 2;
@@ -444,6 +444,7 @@ function loadGame(g, list) {
   if (!over && moves.length === SIZE) over = { winner: 0, line: [], counted: true };
   hideEnd();
   render();
+  if (moves.length) reveal(moves[moves.length - 1]); else centerView();
   if (over) showEnd(false);
 }
 
@@ -479,6 +480,7 @@ function place(i, fromNet) {
     over = { winner: 0, line: [], counted: true };
   }
   render(i);
+  if (!mine(p)) reveal(i);
   if (over) return setTimeout(() => showEnd(true), 450);
   maybeAI();
 }
@@ -534,6 +536,7 @@ const cellEls = [];
 for (let i = 0; i < SIZE; i++) {
   const b = document.createElement('button');
   b.className = 'cell';
+  b.dataset.edge = (i % N === N - 1 ? ' edge-r' : '') + (i >= SIZE - N ? ' edge-b' : '');
   b.setAttribute('role', 'gridcell');
   b.setAttribute('aria-label', `Row ${((i / N) | 0) + 1}, column ${(i % N) + 1}`);
   b.dataset.i = i;
@@ -552,7 +555,7 @@ function render(fresh) {
   const win = new Set(over ? over.line : []);
   for (let i = 0; i < SIZE; i++) {
     const v = board[i];
-    let cls = 'cell';
+    let cls = 'cell' + cellEls[i].dataset.edge;
     if (v === X) cls += ' x'; else if (v === O) cls += ' o';
     if (i === last && !win.size) cls += ' last';
     if (win.has(i)) cls += ' win';
@@ -619,11 +622,27 @@ function flash(msg) {
   flashTimer = setTimeout(() => { s.textContent = ''; }, 2200);
 }
 
-// Stone outlines scale with the board: --u is a hundredth of its width.
-const sizeBoard = () => boardEl.style.setProperty('--u', (boardEl.clientWidth / 100) + 'px');
+// Stone outlines scale with the squares: --cell is one square's width in pixels.
+boardEl.style.setProperty('--n', N);
+const sizeBoard = () => boardEl.style.setProperty('--cell', (boardEl.clientWidth / N) + 'px');
 if (window.ResizeObserver) new ResizeObserver(sizeBoard).observe(boardEl);
 else window.addEventListener('resize', sizeBoard);
 sizeBoard();
+
+// Where the board is bigger than its frame (phones), keep the action in view: centre
+// on a fresh game, and slide an opponent's move into view if it landed off-screen.
+const scroller = $('#scroller');
+function centerView() {
+  scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
+  scroller.scrollTop = (scroller.scrollHeight - scroller.clientHeight) / 2;
+}
+function reveal(i) {
+  const el = cellEls[i], pad = el.offsetWidth * 2;
+  const { scrollLeft: x, scrollTop: y, clientWidth: w, clientHeight: h } = scroller;
+  const l = el.offsetLeft, t = el.offsetTop;
+  if (l - pad >= x && l + el.offsetWidth + pad <= x + w && t - pad >= y && t + el.offsetHeight + pad <= y + h) return;
+  scroller.scrollTo({ left: l - w / 2, top: t - h / 2, behavior: 'smooth' });
+}
 
 // ---------- Input ----------
 const on = (sel, fn) => $(sel).addEventListener('click', fn);

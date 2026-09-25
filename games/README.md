@@ -155,7 +155,7 @@ Implementation notes:
 
 ### Caro — [`caro/`](caro/)
 
-Five in a row on a 15×15 board, against the computer, two players on one device, or two
+Five in a row on a 30×30 board, against the computer, two players on one device, or two
 players online with a room link.
 
 | | |
@@ -168,6 +168,9 @@ players online with a room link.
 
 Implementation notes:
 
+- The board is 30×30. On a desktop it fits the column at ~23px a square; narrower
+  screens keep that minimum so squares stay tappable, and the board scrolls inside its
+  frame. A fresh game centres the view, and an opponent's move off-screen scrolls into view.
 - **Online play has no backend of ours.** The host's browser registers a random room id
   (`caro-xxxxxx`) with PeerJS's free public signalling server; the link carries that id,
   and the friend's browser uses it to open a WebRTC data channel straight to the host.

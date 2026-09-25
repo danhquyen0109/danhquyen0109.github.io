@@ -78,7 +78,9 @@
   </div>
 
   <div class="board-wrap">
-    <div class="board" id="board" role="grid" aria-label="Caro board"></div>
+    <div class="scroller" id="scroller">
+      <div class="board" id="board" role="grid" aria-label="Caro board"></div>
+    </div>
 
     <div class="board-overlay hidden" id="ov-end">
       <div class="end-card">
@@ -106,7 +108,8 @@
   <div class="modal-card">
     <h2>How to play</h2>
     <ul>
-      <li>Players take turns placing <b>X</b> and <b>O</b> on the 15&times;15 board.</li>
+      <li>Players take turns placing <b>X</b> and <b>O</b> on the 30&times;30 board.</li>
+      <li>On a small screen the board is bigger than the view — drag to scroll around it.</li>
       <li>First to get <b>five in a row</b> — across, down or diagonally — wins.</li>
       <li>With <b>&ldquo;Blocked five doesn't win&rdquo;</b> on (the common Vietnamese rule), a five with the opponent's stones capping <em>both</em> ends does not count.</li>
       <li>The first move alternates every game.</li>
